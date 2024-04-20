@@ -1,3 +1,3 @@
 const isLogin=(username)=>{
-    return true;
-}
+   return true
+};
