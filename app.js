@@ -10,5 +10,3 @@ const register=(user)=>{
 const getUser=(user)=>{
     return true
 };
-
-
