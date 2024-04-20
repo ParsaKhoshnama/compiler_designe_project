@@ -1,5 +1,9 @@
 const isLogin=(username)=>{
-    return true
+    if(username==='Nasrin joonam')
+        return true
+    else{
+        return false
+    }
 };
 
 const register=(user)=>{
@@ -9,4 +13,3 @@ const register=(user)=>{
 const getUser=(user)=>{
     return true
 };
-
