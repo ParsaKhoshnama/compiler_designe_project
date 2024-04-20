@@ -1,5 +1,5 @@
 const isLogin=(username)=>{
-   return true
+    return true
 };
 
 const register=(user)=>{
@@ -9,5 +9,7 @@ const register=(user)=>{
 const getUser=(user)=>{
     return true
 };
+
+
 
 
