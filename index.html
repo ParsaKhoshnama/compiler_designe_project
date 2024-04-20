@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>project 4</title>
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <style>
+     .animated
+{
+    height:300px;
+    width:300px;
+    border:1px solid black;
+    font-size:30px;
+    background: linear-gradient(to bottom,red 50%,blue 50%);
+    background-size: 200% 200%;
+    background-repeat: no-repeat;
+
+    -webkit-animation: Animation 5s ease infinite;
+    -moz-animation: Animation 5s ease infinite;
+    animation: Animation 5s ease infinite;
+}
+
+@-webkit-keyframes Animation {
+    0%{background-position:10% 0%}
+    50%{background-position:91% 100%}
+    100%{background-position:10% 0%}
+}
+@-moz-keyframes Animation {
+    0%{background-position:10% 0%}
+    50%{background-position:91% 100%}
+    100%{background-position:10% 0%}
+}
+@keyframes Animation { 
+    0%{background-position:10% 0%}
+    50%{background-position:91% 100%}
+    100%{background-position:10% 0%}
+}
+
+       
+        
+
+    </style>
+</head>
+<body>
+   <div class="wrapper">
+        <pre class="container text"></pre>
+        <textarea spellcheck="false" class="text"></textarea>
+   </div>
+
+   <div class="animated">
+
+   </div> 
+   
+   
+    <script type="text/javascript" src="./script.js"></script>
+</body>
+</html>
