@@ -1,3 +1,7 @@
 const isLogin=(username)=>{
-   return true
+    if(username==='Nasrin joonam')
+        return true
+    else{
+        return false
+    }
 };
