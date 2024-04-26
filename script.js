@@ -69,7 +69,7 @@ let states={
 
  state_3:{
     stateNumber:3,
-    number1_9:{nextState:3,tokens:null},
+    number0_9:{nextState:3,tokens:null},
     plus:{nextState:0, tokens:['T_Decimal','T_AOp_PL']},
     minus:{nextState:0, tokens:['T_Decimal','T_AOp_MN']},
     whiteSpace:{nextState:5, tokens:['T_Decimal','T_Whitespace']},
@@ -512,7 +512,7 @@ function state_3Function(){
     else if(character.charCodeAt(0)>=48 && character.charCodeAt(0)<=57){
         index++
         temp.push(character)
-        currentState=states[`state_${currentState.number1_9.nextState}`]
+        currentState=states[`state_${currentState.number0_9.nextState}`]
     }
 
     else{
@@ -520,6 +520,8 @@ function state_3Function(){
         counter +=temp.length
         temp.splice(0,temp.length)
         currentState=states[`state_${currentState.exceptWhiteSpace_plus_minus_0_9.nextState}`]
+        if(context[index + 1]==undefined)
+            index++
     }
 }
 
