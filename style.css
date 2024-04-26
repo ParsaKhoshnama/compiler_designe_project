@@ -85,7 +85,7 @@ textarea{
     
   /*border-left: 15px solid white;
   border-right: 15px solid white;*/
-    width: 100% !important;
+    width: calc(100% - 30px) !important;
     height: calc(100% - 30px) !important ;
     
     position: absolute;
