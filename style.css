@@ -61,7 +61,8 @@ body{
    
     position: absolute;
     background-color: transparent;
-    z-index: 1000;
+    z-index: 0;
+   
  /*   padding: 0px 15px !important;*/
 
    /* word-break: break-all;*/
@@ -72,6 +73,8 @@ body{
 
    /*  white-space:pre-wrap !important;
    word-wrap: break-word !important;*/
+   border-right: 30px solid white;
+   white-space:pre
    
    
 }
@@ -92,7 +95,7 @@ textarea{
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1001;
+    z-index: 1;
     background-color: transparent;
     color: transparent;
     caret-color: blueviolet;
