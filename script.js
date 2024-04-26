@@ -204,63 +204,83 @@ function compileFunction(event){
         
         switch(currentState){
             case states.state_0:
+                state_0Function()
                 break
 
             case states.state_1:
+                state_1Function()
                 break
 
             case states.state_2:
+                state_2Function()
                 break
 
             case states.state_3:
+                state_3Function()
                 break
 
             case states.state_4:
+                state_4Function()
                 break
 
             case states.state_5:
+                state_5Function()
                 break
 
             case states.state_6:
+                state_6Function()
                 break
 
             case states.state_7:
+                state_7Function()
                 break
 
             case states.state_8:
+                state_8Function()
                 break
 
             case states.state_9:
+                state_9Function()
                 break
 
             case states.state_10:
+                state_10Function()
                 break
 
             case states.state_11:
+                state_11Function()
                 break
 
             case states.state_12:
+                state_12Function()
                 break
 
             case states.state_13:
+                state_13Function()
                 break
 
             case states.state_14:
+                state_14Function()
                 break
 
             case states.state_15:
+                state_15Function()
                 break
 
             case states.state_16:
+                state_16Function()
                 break
 
             case states.state_17:
+                state_17Function()
                 break
 
             case states.state_18:
+                state_18Function()
                 break
 
             case states.state_19:
+                state_19Function()
                 break    
         }
         
