@@ -69,6 +69,7 @@ let states={
 
  state_3:{
     stateNumber:3,
+    number1_9:{nextState:3,tokens:null},
     plus:{nextState:0, tokens:['T_Decimal','T_AOp_PL']},
     minus:{nextState:0, tokens:['T_Decimal','T_AOp_MN']},
     whiteSpace:{nextState:5, tokens:['T_Decimal','T_Whitespace']},
@@ -408,7 +409,6 @@ function state_0Function(){
     else if(character=='_'||(character.charCodeAt(0)>=97 && character.charCodeAt(0)<=122)|| 
     (character.charCodeAt(0)>=65 && character.charCodeAt(0)<=90)){
         index++
-        currentState=
         temp.push(character)
         currentState=states[`state_${currentState.a_ZA_Z_.nextState}`]
     }
@@ -462,9 +462,14 @@ function state_0Function(){
     }
     
 }
-
+console.log('0'.charCodeAt(0))
 function state_1Function(){
-    
+
+    if(character.charCodeAt(0)>=49 && character.charCodeAt(0)<=57){
+        index++
+        temp.push(character)
+        currentState=states[`state_${currentState.number1_9.nextState}`]
+    }
 }
 
 function state_2Function(){
@@ -474,6 +479,48 @@ function state_2Function(){
 
 function state_3Function(){
     
+    if(whiteSpaces.includes(character)){
+        index++
+        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.whiteSpace.tokens[0]}`)
+        counter +=temp.length
+        temp.splice(0,temp.length)
+        tokens.push(`${counter}: whitespace-> ${currentState.whiteSpace.tokens[1]}`)
+        counter++
+        currentState=states[`state_${currentState.whiteSpace.nextState}`]
+    }
+
+    else if(character=='+'){
+        index++
+        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.plus.tokens[0]}`)
+        counter +=temp.length
+        temp.splice(0,temp.length)
+        tokens.push(`${counter}: whitespace-> ${currentState.plus.tokens[1]}`)
+        counter++
+        currentState=states[`state_${currentState.plus.nextState}`]
+    }
+    
+    else if(character=='-'){
+        index++
+        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.minus.tokens[0]}`)
+        counter +=temp.length
+        temp.splice(0,temp.length)
+        tokens.push(`${counter}: whitespace-> ${currentState.minus.tokens[1]}`)
+        counter++
+        currentState=states[`state_${currentState.minus.nextState}`]
+    }
+
+    else if(character.charCodeAt(0)>=48 && character.charCodeAt(0)<=57){
+        index++
+        temp.push(character)
+        currentState=states[`state_${currentState.number1_9.nextState}`]
+    }
+
+    else{
+        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.plus.tokens[0]}`)
+        counter +=temp.length
+        temp.splice(0,temp.length)
+        currentState=states[`state_${currentState.exceptWhiteSpace_plus_minus_0_9.nextState}`]
+    }
 }
 
 
