@@ -95,24 +95,24 @@ let states={
 },
  state_4:{
     stateNumber:4,
-    a_fA_F0_9:{nextstate:4,tokens:null},
+    a_fA_F0_9:{nextState:4,tokens:null},
     whiteSpace:{nextState:5, tokens:['T_Hexadecimal','T_Whitespace']},
     plus:{nextState:0, tokens:['T_Hexadecimal','T_AOp_PL']},
     minus:{nextState:0, tokens:['T_Hexadecimal','T_AOp_MN']},
-    exceptWhiteSpace_plus_minus_a_fA_F0_9:{nextstate:0,tokens:['T_Hexadecimal']}
+    exceptWhiteSpace_plus_minus_a_fA_F0_9:{nextState:0,tokens:['T_Hexadecimal']}
 },
  state_6:{
     stateNumber:6,
-    a_zA_Z_0_9_:{nextstate:6,tokens:null},
+    a_zA_Z_0_9_:{nextState:6,tokens:null},
     whiteSpace:{nextState:5,tokens:['T_Id','T_Whitespace']},
     plus:{nextState:0, tokens:['T_Id','T_AOp_PL']},
     minus:{nextState:0, tokens:['T_Id','T_AOp_MN']},
-    exceptWhiteSpace_plus_minus_a_ZA_Z0_9_:{nextstate:0,tokens:['T_Id']}
+    exceptWhiteSpace_plus_minus_a_ZA_Z0_9_:{nextState:0,tokens:['T_Id']}
 },
 
  state_7:{
     stateNumber:7,
-    equal:{nextState:0,tokens:['T_ROp_LE',]},
+    equal:{nextState:0,tokens:['T_ROp_LE']},
     exceptEqual:{nextState:0,tokens:['T_ROp_L']}
 },
 
@@ -539,7 +539,7 @@ function state_4Function(){
 
         index++
         temp.push(character)
-        currentState=states[`state_${currentState.a_fA_F0_9.nextstate}`]
+        currentState=states[`state_${currentState.a_fA_F0_9.nextState}`]
        }
 
     else if(whiteSpaces.includes(character)){
@@ -559,7 +559,7 @@ function state_4Function(){
         tokens.push(`${counter}: ${temp.join('')} -> ${currentState.plus.tokens[0]}`)
         counter +=temp.length
         temp.splice(0,temp.length)
-        currentState=states[`state_${currentState.exceptWhiteSpace_plus_minus_0_9.nextState}`]
+        currentState=states[`state_${states.state_4.exceptWhiteSpace_plus_minus_a_fA_F0_9.nextState}`]
 
     }
 
@@ -596,28 +596,78 @@ function state_5Function(){
 
 
 function state_6Function(){
-    
+    if(character=='_'||(character.charCodeAt(0)>=97 && character.charCodeAt(0)<=122)|| 
+       (character.charCodeAt(0)>=65 && character.charCodeAt(0)<=90)||
+       (character.charCodeAt(0)>=49 && character.charCodeAt(0)<=57)){
+
+        index++
+        temp.push(character)
+        currentState=states[`state_${currentState.a_zA_Z_0_9_.nextState}`]
+        
+    }
+
+    else if(whiteSpaces.includes(character)){
+        whiteSpaceAfterNumber()
+    }
+
+    else if(character=='+'){
+        plusAfterNumber()
+    }
+
+    else if(character=='-'){
+        minusAfterNumber()
+    }
+
+    else{
+        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.plus.tokens[0]}`)
+        counter +=temp.length
+        temp.splice(0,temp.length)
+        currentState=states[`state_${currentState.exceptWhiteSpace_plus_minus_a_ZA_Z0_9_.nextState}`]
+    }
 }
 
 
 function state_7Function(){
-    
+    if(character=='='){
+        equalFunction()
+    }
+
+    else{
+        nonEqualFunction()
+    }
 }
 
 
 function state_8Function(){
-    
+    if(character=='='){
+        equalFunction()
+    }
+
+    else{
+        nonEqualFunction()
+    }
 }
 
 
 function state_9Function(){
-    
+    if(character=='='){
+        equalFunction()
+    }
+
+    else{
+        nonEqualFunction()
+    }
 }
 
 function state_10Function(){
-    
-}
+    if(character=='='){
+        equalFunction()
+    }
 
+    else{
+        nonEqualFunction()
+    }
+}
 
 
 function state_11Function(){
@@ -700,6 +750,26 @@ function minusAfterNumber(){
     tokens.push(`${counter}: - -> ${currentState.minus.tokens[1]}`)
     counter++
     currentState=states[`state_${currentState.minus.nextState}`]
+}
+
+
+function equalFunction(){
+    index++
+    temp.push(character)
+    tokens.push(`${counter}: ${temp.join('')} -> ${currentState.equal.tokens[0]}`)
+    counter +=temp.length
+    temp.splice(0,temp.length)
+    currentState=states[`state_${currentState.equal.nextState}`]
+
+}
+
+
+function nonEqualFunction(){
+
+    tokens.push(`${counter}: ${temp.join('')} -> ${currentState.exceptEqual.tokens[0]}`)
+    counter +=temp.length
+    temp.splice(0,temp.length)
+    currentState=states[`state_${currentState.exceptEqual.nextState}`]
 }
 
 
