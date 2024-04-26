@@ -607,15 +607,15 @@ function state_6Function(){
     }
 
     else if(whiteSpaces.includes(character)){
-        whiteSpaceAfterNumber()
+        whiteSpaceAfterID()
     }
 
     else if(character=='+'){
-        plusAfterNumber()
+        plusAfterID()
     }
 
     else if(character=='-'){
-        minusAfterNumber()
+        minusAfterID()
     }
 
     else{
@@ -671,12 +671,26 @@ function state_10Function(){
 
 
 function state_11Function(){
-    
+    if(character=='&'){
+        index++
+        temp.push(character)
+        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.and.tokens[0]}`)
+        counter +=temp.length
+        temp.splice(0,temp.length)
+        currentState=states[`state_${currentState.and.nextState}`]
+    }
 }
 
 
 function state_12Function(){
-    
+    if(character=='|'){
+        index++
+        temp.push(character)
+        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.or.tokens[0]}`)
+        counter +=temp.length
+        temp.splice(0,temp.length)
+        currentState=states[`state_${currentState.or.nextState}`]
+    }
 }
 
 
@@ -717,7 +731,7 @@ function state_19Function(){
 
 
 
-//------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------
 
 
 function whiteSpaceAfterNumber(){
@@ -770,6 +784,66 @@ function nonEqualFunction(){
     counter +=temp.length
     temp.splice(0,temp.length)
     currentState=states[`state_${currentState.exceptEqual.nextState}`]
+}
+
+
+function plusAfterID(){
+
+    index++
+    if(!checkKeyWords()){
+        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.plus.tokens[0]}`)
+        counter +=temp.length
+    }
+
+    temp.splice(0,temp.length)
+    tokens.push(`${counter}: whitespace -> ${currentState.plus.tokens[1]}`)
+    counter++
+    currentState=states[`state_${currentState.plus.nextState}`]
+}
+
+
+function minusAfterID(){
+
+    index++
+    if(!checkKeyWords()){
+        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.minus.tokens[0]}`)
+        counter +=temp.length
+    }
+
+    temp.splice(0,temp.length)
+    tokens.push(`${counter}: whitespace -> ${currentState.minus.tokens[1]}`)
+    counter++
+    currentState=states[`state_${currentState.minus.nextState}`]
+}
+
+function whiteSpaceAfterID(){
+
+    index++
+    if(!checkKeyWords()){
+        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.whiteSpace.tokens[0]}`)
+        counter +=temp.length
+    }
+
+    temp.splice(0,temp.length)
+    tokens.push(`${counter}: whitespace -> ${currentState.whiteSpace.tokens[1]}`)
+    counter++
+    currentState=states[`state_${currentState.whiteSpace.nextState}`]
+}
+
+
+let flag
+
+function checkKeyWords(){
+    flag=keyWords.some(function(keyWord){
+
+        if(keyWord.name==temp.join('')){
+            tokens.push(`${counter}: ${keyWord.name} -> ${keyWord.token}`)
+            counter+=keyWord.name,length
+            return true
+        }
+        return false
+    })
+    return flag
 }
 
 
