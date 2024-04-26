@@ -192,7 +192,7 @@ let context
 let character
 let temp=[]
 let tokens=[]
-console.log(character=='/')
+
 
 let counter
 
@@ -392,6 +392,75 @@ function state_0Function(){
         temp.push(character)
         currentState=states[`state_${currentState.plus_Minus.nextState}`]
     }
+
+    else if(character.charCodeAt(0)>=49 && character.charCodeAt(0)<=57){
+        index++
+        temp.push(character)
+        currentState=states[`state_${currentState.number1_9.nextState}`]
+    }
+
+    else if(character=='0'){
+        index++
+        temp.push(character)
+        currentState=states[`state_${currentState.number0.nextState}`]
+    }
+
+    else if(character=='_'||(character.charCodeAt(0)>=97 && character.charCodeAt(0)<=122)|| 
+    (character.charCodeAt(0)>=65 && character.charCodeAt(0)<=90)){
+        index++
+        currentState=
+        temp.push(character)
+        currentState=states[`state_${currentState.a_ZA_Z_.nextState}`]
+    }
+
+    else if(character=='<'){
+        index++
+        temp.push(character)
+        currentState=states[`state_${currentState.less.nextState}`]
+    }
+
+    else if(character=='>'){
+        index++
+        temp.push(character)
+        currentState=states[`state_${currentState.greater.nextState}`]
+    }
+
+    else if(character=='='){
+        index++
+        temp.push(character)
+        currentState=states[`state_${currentState.equal.nextState}`]
+    }
+    
+    else if(character=='!'){
+        index++
+        temp.push(character)
+        currentState=states[`state_${currentState.not.nextState}`]
+    }
+    
+    else if(character=='&'){
+        index++
+        temp.push(character)
+        currentState=states[`state_${currentState.and.nextState}`]
+    }
+
+    else if(character=='|'){
+        index++
+        temp.push(character)
+        currentState=states[`state_${currentState.or.nextState}`]
+    }
+
+    else if(character="'"){
+        index++
+        temp.push(character)
+        currentState=states[`state_${currentState.quotation.nextState}`]
+    }
+
+    else if(character='"'){
+        index++
+        temp.push(character)
+        currentState=states[`state_${currentState.doubleQuotation.nextState}`]
+    }
+    
 }
 
 function state_1Function(){
