@@ -190,17 +190,26 @@ let currentState
 var index
 let context
 let character
-let token=[]
+let temp=[]
+let tokens=[]
+console.log(character=='/')
+
+let counter
+
+let state
 
 
 function compileFunction(event){
 
     context=textareaWrapper.innerHTML
-    currentState=states.state_1
+    currentState=states.state_0
     index=0
+    counter=0
 
 
     while(context[index]!=undefined){
+
+        character=context[index]
         
         switch(currentState){
             case states.state_0:
@@ -281,7 +290,10 @@ function compileFunction(event){
 
             case states.state_19:
                 state_19Function()
-                break    
+                break
+
+            default:
+                break 
         }
         
     }
@@ -289,9 +301,97 @@ function compileFunction(event){
 }
 
 
-
 function state_0Function(){
+    
+    if(whiteSpaces.includes(character)){
+        
+        index++
+        tokens.push(`${counter}: whitespace -> ${states.state_0.whiteSpace.tokens[0]}`)
+        counter++
+        currentState=states[`state_${currentState.whiteSpace.nextState}`]
+    }
 
+    else if(character=='*'){
+        index++
+        tokens.push(`${counter}: * -> ${currentState.multiplication.tokens[0]}`)
+        counter++
+        currentState=states[`state_${currentState.multiplication.nextState}`]
+    }
+
+    else if(character=='/'){
+        index++
+        temp.push(character)
+        currentState=states[`state_${currentState.division.nextState}`]
+    }
+
+    else if(character=='%'){
+        index++
+        tokens.push(`${counter}: % -> ${currentState.reminder.tokens[0]}`)
+        counter++
+        currentState=states[`state_${currentState.reminder.nextState}`]
+    }
+
+    else if(character=='('){
+        index++
+        tokens.push(`${counter}: % -> ${currentState.parenthesisOpen.tokens[0]}`)
+        counter++
+        currentState=states[`state_${currentState.parenthesisOpen.nextState}`]
+    }
+
+    else if(character==')'){
+        index++
+        tokens.push(`${counter}: % -> ${currentState.parenthesisClose.tokens[0]}`)
+        counter++
+        currentState=states[`state_${currentState.parenthesisClose.nextState}`]
+    }
+
+    else if(character=='{'){
+        index++
+        tokens.push(`${counter}: % -> ${currentState.braceOpen.tokens[0]}`)
+        counter++
+        currentState=states[`state_${currentState.braceOpen.nextState}`]
+    }
+
+    else if(character=='}'){
+        index++
+        tokens.push(`${counter}: % -> ${currentState.braceClose.tokens[0]}`)
+        counter++
+        currentState=states[`state_${currentState.braceClose.nextState}`]
+    }
+
+    else if(character=='['){
+        index++
+        tokens.push(`${counter}: % -> ${currentState.bracketOpen.tokens[0]}`)
+        counter++
+        currentState=states[`state_${currentState.bracketOpen.nextState}`]
+    }
+
+    else if(character==']'){
+        index++
+        tokens.push(`${counter}: % -> ${currentState.bracketClose.tokens[0]}`)
+        counter++
+        currentState=states[`state_${currentState.bracketClose.nextState}`]
+    }
+
+    else if(character==','){
+        index++
+        tokens.push(`${counter}: % -> ${currentState.comma.tokens[0]}`)
+        counter++
+        currentState=states[`state_${currentState.comma.nextState}`]
+    }
+
+    else if(character==';'){
+        index++
+        tokens.push(`${counter}: % -> ${currentState.semicolon.tokens[0]}`)
+        counter++
+        currentState=states[`state_${currentState.semicolon.nextState}`]
+    }
+
+    else if(character=='+' || character=='-'){
+        index++
+        temp.push(character)
+        currentState=states[`state_${currentState.plus_Minus.nextState}`]
+    }
 }
 
 function state_1Function(){
