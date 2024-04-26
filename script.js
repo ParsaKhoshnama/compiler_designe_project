@@ -8,7 +8,7 @@ let textareaWrapper=document.querySelector('.container')
 
  textarea.addEventListener('keyup',event=>textareaWrapper.innerHTML=event.target.value)
  
- //document.querySelector('.btn').addEventListener('click',compileFunction)
+ document.querySelector('.btn').addEventListener('click',compileFunction)
 
 
 
@@ -59,7 +59,7 @@ let states={
     and:{nextState:11,tokens:null},
     or:{nextState:12,tokens:null},
     quotation:{nextState:13,tokens:null},
-    doubleQuotation:{nextState:16,tokens:null},
+    doubleQuotation:{nextState:16,tokens:null}
 },
 
  state_1:{
@@ -68,6 +68,7 @@ let states={
 },
 
  state_3:{
+    stateNumber:3,
     plus:{nextState:0, tokens:['T_Decimal','T_AOp_PL']},
     minus:{nextState:0, tokens:['T_Decimal','T_AOp_MN']},
     whiteSpace:{nextState:5, tokens:['T_Decimal','T_Whitespace']},
@@ -75,6 +76,7 @@ let states={
 },
 
  state_5:{
+    statusbar:5,
     whiteSpace:{nextState:5, tokens:['T_Whitespace']},
     plus:{nextState:0, tokens:['T_AOp_PL']},
     minus:{nextState:0, tokens:['T_AOp_MN']},
@@ -82,6 +84,7 @@ let states={
 },
 
  state_2:{
+    stateNumber:2,
     x:{nextState:4,tokens:null},
     whiteSpace:{nextState:5, tokens:['T_Decimal','T_Whitespace']},
     plus:{nextState:0, tokens:['T_Decimal','T_AOp_PL']},
@@ -90,6 +93,7 @@ let states={
     
 },
  state_4:{
+    stateNumber:4,
     a_fA_F0_9:{nextstate:4,tokens:null},
     whiteSpace:{nextState:5, tokens:['T_Hexadecimal','T_Whitespace']},
     plus:{nextState:0, tokens:['T_Hexadecimal','T_AOp_PL']},
@@ -97,6 +101,7 @@ let states={
     exceptWhiteSpace_plus_minus_a_fA_F0_9:{nextstate:0,tokens:['T_Hexadecimal']}
 },
  state_6:{
+    stateNumber:6,
     a_zA_Z_0_9_:{nextstate:6,tokens:null},
     whiteSpace:{nextState:5,tokens:['T_Id','T_Whitespace']},
     plus:{nextState:0, tokens:['T_Id','T_AOp_PL']},
@@ -105,66 +110,161 @@ let states={
 },
 
  state_7:{
+    stateNumber:7,
     equal:{nextState:0,tokens:['T_ROp_LE',]},
     exceptEqual:{nextState:0,tokens:['T_ROp_L']}
 },
 
  state_8:{
+    stateNumber:8,
     equal:{nextState:0,tokens:['T_ROp_GE']},
     exceptEqual:{nextState:0,tokens:['T_ROp_G']}
 },
 
  state_9:{
+    stateNumber:9,
     equal:{nextState:0,tokens:['T_ROp_E']},
     exceptEqual:{nextState:0,tokens:['T_Assign']}
 },
 
  state_10:{
+    stateNumber:10,
     equal:{nextState:0,tokens:['T_ROp_NE']},
     exceptEqual:{nextState:0,tokens:['T_LOp_NOT']}
 },
 
  state_11:{
+    stateNumber:11,
     and:{nextState:0,tokens:['T_LOp_AND']}
 },
 
  state_12:{
+    stateNumber:12,
     or:{nextState:0,tokens:['T_LOp_OR']}
 },
 
  state_13:{
+    stateNumber:13,
     backSlash:{nextState:14,tokens:null},
     exceptQuotation:{nextState:15,tokens:null}
 },
 
  state_14:{
+    stateNumber:14,
     quotation:{nextState:15,tokens:null}
 },
 
   state_15:{
+    stateNumber:15,
     quotation:{nextState:0,tokens:['T_Character']}
 },
 
  state_16:{
+    stateNumber:16,
     backSlash:{nextState:17,tokens:null},
     exceptDoubleQuotation:{nextState:16,tokens:null},
     doubleQuotation:{nextState:16,tokens:['T_String']}
 },
 
  state_17:{
+    stateNumber:17,
     doubleQuotation:{nextState:16,tokens:null}
 },
 
  state_18:{
+    stateNumber:18,
     slash:{nextState:19,tokens:null},
     exceptSlasch:{nextState:0,tokens:['T_AOp_DV']}
 },
 
  state_19:{
+    stateNumber:19,
     exceptNewLine:{nextState:19,tokens:null},
     newLine:{nextState:0,tokens:['T_Comment']} 
 }
 
+
+}
+
+let currentState
+var index
+let context
+
+let token=[]
+
+
+function compileFunction(event){
+
+    context=textareaWrapper.innerHTML
+    currentState=states.state_1
+    index=0
+
+
+  //  while(context[index]!=undefined){
+        
+        switch(currentState){
+            case states.state_0:
+                break
+
+            case states.state_1:
+                break
+
+            case states.state_2:
+                break
+
+            case states.state_3:
+                break
+
+            case states.state_4:
+                break
+
+            case states.state_5:
+                break
+
+            case states.state_6:
+                break
+
+            case states.state_7:
+                break
+                
+            case states.state_8:
+                break
+
+            case states.state_9:
+                break
+
+            case states.state_10:
+                break
+
+            case states.state_11:
+                break
+
+            case states.state_12:
+                break
+
+            case states.state_13:
+                break
+
+            case states.state_14:
+                break
+
+            case states.state_15:
+                break
+
+            case states.state_16:
+                break
+
+            case states.state_17:
+                break
+
+            case states.state_18:
+                break
+
+            case states.state_19:
+                break    
+        }
+        
+//    }
 
 }
 
