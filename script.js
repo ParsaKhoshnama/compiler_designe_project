@@ -189,7 +189,7 @@ let states={
 let currentState
 var index
 let context
-
+let character
 let token=[]
 
 
@@ -200,7 +200,7 @@ function compileFunction(event){
     index=0
 
 
-  //  while(context[index]!=undefined){
+    while(context[index]!=undefined){
         
         switch(currentState){
             case states.state_0:
@@ -226,7 +226,7 @@ function compileFunction(event){
 
             case states.state_7:
                 break
-                
+
             case states.state_8:
                 break
 
@@ -264,8 +264,106 @@ function compileFunction(event){
                 break    
         }
         
-//    }
+    }
 
+}
+
+
+
+function state_0Function(){
+
+}
+
+function state_1Function(){
+    
+}
+
+function state_2Function(){
+    
+}
+
+
+function state_3Function(){
+    
+}
+
+
+function state_4Function(){
+    
+}
+
+
+function state_5Function(){
+    
+}
+
+
+function state_6Function(){
+    
+}
+
+
+function state_7Function(){
+    
+}
+
+
+function state_8Function(){
+    
+}
+
+
+function state_9Function(){
+    
+}
+
+function state_10Function(){
+    
+}
+
+
+
+function state_11Function(){
+    
+}
+
+
+function state_12Function(){
+    
+}
+
+
+function state_13Function(){
+    
+}
+
+
+function state_14Function(){
+    
+}
+
+
+function state_15Function(){
+    
+}
+
+
+function state_16Function(){
+    
+}
+
+
+function state_17Function(){
+    
+}
+
+
+function state_18Function(){
+    
+}
+
+function state_19Function(){
+    
 }
 
 
