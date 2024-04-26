@@ -5,10 +5,31 @@
     padding: 0px;
 }
 
+.btn{
+    outline: none;
+    border: none;
+    color: white;
+    background-color: green;
+    width: 90px;
+    height: 30px;
+    border-radius: 10px;
+    border: 5px solid red;
+    transition: all 300ms linear;
+    cursor: pointer;
+}
+
+.btn:hover{
+    background-color: blue;
+    border-color:green;
+}
+
+.btn:active{
+    transform: scale(1.4);
+}
+
 .box{
     width: 400px;
     height: 90px;
-    border: 1px solid red;
 }
 
 body{
@@ -16,7 +37,7 @@ body{
     display: flex;
     justify-content: space-around;
     align-items: center;
-    flex-direction: column;
+    flex-direction: row;
     gap: 15px;
 
 }
@@ -40,7 +61,7 @@ body{
    
     position: absolute;
     background-color: transparent;
-    z-index: 1;
+    z-index: 1000;
  /*   padding: 0px 15px !important;*/
 
    /* word-break: break-all;*/
@@ -71,7 +92,7 @@ textarea{
     top: 0;
     left: 0;
     right: 0;
-    z-index: 5;
+    z-index: 1001;
     background-color: transparent;
     color: transparent;
     caret-color: blueviolet;
@@ -82,6 +103,7 @@ textarea{
     overflow-y: auto;
     scrollbar-width: none;
     white-space:pre;
+
     
 }
 textarea::selection{
