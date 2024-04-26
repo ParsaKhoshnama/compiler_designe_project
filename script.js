@@ -181,7 +181,7 @@ let states={
  state_19:{
     stateNumber:19,
     exceptNewLine:{nextState:19,tokens:null},
-    newLine:{nextState:0,tokens:['T_Comment']} 
+    newLine:{nextState:0,tokens:['T_Comment','T_Whitespace']} 
 }
 
 
@@ -494,7 +494,7 @@ function state_2Function(){
 
     else{
 
-        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.plus.tokens[0]}`)
+        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.exceptWhiteSpace_plus_minus.tokens[0]}`)
         counter +=temp.length
         temp.splice(0,temp.length)
         currentState=states[`state_${currentState.exceptWhiteSpace_plus_minus.nextState}`]
@@ -523,7 +523,7 @@ function state_3Function(){
     }
 
     else{
-        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.plus.tokens[0]}`)
+        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.exceptWhiteSpace_plus_minus_0_9.tokens[0]}`)
         counter +=temp.length
         temp.splice(0,temp.length)
         currentState=states[`state_${currentState.exceptWhiteSpace_plus_minus_0_9.nextState}`]
@@ -556,10 +556,10 @@ function state_4Function(){
 
     else{
 
-        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.plus.tokens[0]}`)
+        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.exceptWhiteSpace_plus_minus_a_fA_F0_9.tokens[0]}`)
         counter +=temp.length
         temp.splice(0,temp.length)
-        currentState=states[`state_${states.state_4.exceptWhiteSpace_plus_minus_a_fA_F0_9.nextState}`]
+        currentState=states[`state_${currentState.exceptWhiteSpace_plus_minus_a_fA_F0_9.nextState}`]
 
     }
 
@@ -619,7 +619,7 @@ function state_6Function(){
     }
 
     else{
-        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.plus.tokens[0]}`)
+        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.execptWhiteSpace_plus_minus_a_ZA_Z0_9.tokens[0]}`)
         counter +=temp.length
         temp.splice(0,temp.length)
         currentState=states[`state_${currentState.exceptWhiteSpace_plus_minus_a_ZA_Z0_9_.nextState}`]
@@ -695,36 +695,102 @@ function state_12Function(){
 
 
 function state_13Function(){
-    
+    if(character=='\\'){
+        index++
+        temp.push(character)
+        currentState=states[`state_${currentState.backSlash.nextState}`]
+    }
+    else{
+        index++
+        temp.push(character)
+        currentState=states[`state_${currentState.exceptQuotation.nextState}`]
+    }
 }
 
 
 function state_14Function(){
-    
+    if(character=="'"){
+        index++
+        temp.push(character)
+        currentState=states[`state_${currentState.quotation.nextState}`]
+    }
 }
 
 
 function state_15Function(){
-    
+    if(character=="'"){
+        index++
+        temp.push(character)
+        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.quotation.tokens[0]}`)
+        counter +=temp.length
+        temp.splice(0,temp.length)
+        currentState=states[`state_${currentState.quotation.nextState}`]
+    }
 }
 
 
 function state_16Function(){
+    if(character=='\\'){
+        index++
+        temp.push(character)
+        currentState=states[`state_${currentState.backSlash.nextState}`]
+    }
+
+    else if(character=='"'){
+        index++
+        temp.push(character)
+        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.doubleQuotation.tokens[0]}`)
+        counter +=temp.length
+        temp.splice(0,temp.length)
+        currentState=states[`state_${currentState.doubleQuotation.nextState}`]
+    }
     
+    else{
+        index++
+        temp.push(character)
+        currentState=states[`state_${currentState.exceptDoubleQuotation.nextState}`]
+    }
 }
 
 
 function state_17Function(){
-    
+    if(character=='"'){
+        index++
+        temp.push(character)
+        currentState=states[`state_${currentState.doubleQuotation.nextState}`]
+    }
 }
 
 
 function state_18Function(){
-    
+    if(character=='/'){
+        index++
+        temp.push(character)
+        currentState=states[`state_${currentState.slash.nextState}`]
+    }
+
+    else{
+        tokens.push(`${counter}: / -> ${currentState.exceptSlasch.tokens[0]}`)
+        counter +=temp.length
+        temp.splice(0,temp.length)
+        currentState=states[`state_${currentState.exceptSlasch.nextState}`]
+    }
 }
 
 function state_19Function(){
-    
+    if(character=='\n'){
+        index++
+        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.newLine.tokens[0]}`)
+        counter +=temp.length
+        temp.splice(0,temp.length)
+        tokens.push(`${counter}: whitespace -> ${currentState.newLine.tokens[1]}`)
+        currentState=states[`state_${currentState.newLine.nextState}`]
+    }
+    else{
+        index++
+        temp.push(character)
+        currentState=states[`state_${currentState.exceptNewLine.nextState}`]
+    }
 }
 
 
@@ -796,7 +862,7 @@ function plusAfterID(){
     }
 
     temp.splice(0,temp.length)
-    tokens.push(`${counter}: whitespace -> ${currentState.plus.tokens[1]}`)
+    tokens.push(`${counter}: + -> ${currentState.plus.tokens[1]}`)
     counter++
     currentState=states[`state_${currentState.plus.nextState}`]
 }
@@ -811,7 +877,7 @@ function minusAfterID(){
     }
 
     temp.splice(0,temp.length)
-    tokens.push(`${counter}: whitespace -> ${currentState.minus.tokens[1]}`)
+    tokens.push(`${counter}: - -> ${currentState.minus.tokens[1]}`)
     counter++
     currentState=states[`state_${currentState.minus.nextState}`]
 }
