@@ -101,6 +101,67 @@ let state_6={
     exceptWhiteSpace_plus_minus_a_ZA_Z0_9_:{nextstate:state_0,tokens:['T_Id']}
 }
 
+let state_7={
+    equal:{nextState:state_0,tokens:['T_ROp_LE',]},
+    exceptEqual:{nextState:state_0,tokens:['T_ROp_L']}
+}
+
+let state_8={
+    equal:{nextState:state_0,tokens:['T_ROp_GE']},
+    exceptEqual:{nextState:state_0,tokens:['T_ROp_G']}
+}
+
+let state_9={
+    equal:{nextState:state_0,tokens:['T_ROp_E']},
+    exceptEqual:{nextState:state_0,tokens:['T_Assign']}
+}
+
+let state_10={
+    equal:{nextState:state_0,tokens:['T_ROp_NE']},
+    exceptEqual:{nextState:state_0,tokens:['T_LOp_NOT']}
+}
+
+let state_11={
+    and:{nextState:state_0,tokens:['T_LOp_AND']}
+}
+
+let state_12={
+    or:{nextState:state_0,tokens:['T_LOp_OR']}
+}
+
+let state_13={
+    backSlash:{nextState:state_14,tokens:null},
+    exceptQuotation:{nextState:state_15,tokens:null}
+}
+
+let state_14={
+    quotation:{nextState:state_15,tokens:null}
+}
+
+let state_15={
+    quotation:{nextState:state_0,tokens:['T_Character']}
+}
+
+let state_16={
+    backSlash:{nextState:state_17,tokens:null},
+    exceptDoubleQuotation:{nextState:state_16,tokens:null},
+    doubleQuotation:{nextState:state_16,tokens:['T_String']}
+}
+
+let state_17={
+    doubleQuotation:{nextState:state_16,tokens:null}
+}
+
+let state_18={
+    slash:{nextState:state_19,tokens:null},
+    exceptSlasch:{nextState:state_0,tokens:['T_AOp_DV']}
+}
+
+let state_19={
+    exceptNewLine:{nextState:state_19,tokens:null},
+    newLine:{nextState:state_0,tokens:['T_Comment']} 
+}
+
 
 
 
