@@ -77,7 +77,7 @@ let states={
 },
 
  state_5:{
-    statusbar:5,
+    stateNumber:5,
     whiteSpace:{nextState:5, tokens:['T_Whitespace']},
     plus:{nextState:0, tokens:['T_AOp_PL']},
     minus:{nextState:0, tokens:['T_AOp_MN']},
@@ -334,56 +334,56 @@ function state_0Function(){
 
     else if(character=='('){
         index++
-        tokens.push(`${counter}: % -> ${currentState.parenthesisOpen.tokens[0]}`)
+        tokens.push(`${counter}: () -> ${currentState.parenthesisOpen.tokens[0]}`)
         counter++
         currentState=states[`state_${currentState.parenthesisOpen.nextState}`]
     }
 
     else if(character==')'){
         index++
-        tokens.push(`${counter}: % -> ${currentState.parenthesisClose.tokens[0]}`)
+        tokens.push(`${counter}: ) -> ${currentState.parenthesisClose.tokens[0]}`)
         counter++
         currentState=states[`state_${currentState.parenthesisClose.nextState}`]
     }
 
     else if(character=='{'){
         index++
-        tokens.push(`${counter}: % -> ${currentState.braceOpen.tokens[0]}`)
+        tokens.push(`${counter}: { -> ${currentState.braceOpen.tokens[0]}`)
         counter++
         currentState=states[`state_${currentState.braceOpen.nextState}`]
     }
 
     else if(character=='}'){
         index++
-        tokens.push(`${counter}: % -> ${currentState.braceClose.tokens[0]}`)
+        tokens.push(`${counter}: } -> ${currentState.braceClose.tokens[0]}`)
         counter++
         currentState=states[`state_${currentState.braceClose.nextState}`]
     }
 
     else if(character=='['){
         index++
-        tokens.push(`${counter}: % -> ${currentState.bracketOpen.tokens[0]}`)
+        tokens.push(`${counter}: [ -> ${currentState.bracketOpen.tokens[0]}`)
         counter++
         currentState=states[`state_${currentState.bracketOpen.nextState}`]
     }
 
     else if(character==']'){
         index++
-        tokens.push(`${counter}: % -> ${currentState.bracketClose.tokens[0]}`)
+        tokens.push(`${counter}: ] -> ${currentState.bracketClose.tokens[0]}`)
         counter++
         currentState=states[`state_${currentState.bracketClose.nextState}`]
     }
 
     else if(character==','){
         index++
-        tokens.push(`${counter}: % -> ${currentState.comma.tokens[0]}`)
+        tokens.push(`${counter}: , -> ${currentState.comma.tokens[0]}`)
         counter++
         currentState=states[`state_${currentState.comma.nextState}`]
     }
 
     else if(character==';'){
         index++
-        tokens.push(`${counter}: % -> ${currentState.semicolon.tokens[0]}`)
+        tokens.push(`${counter}: ; -> ${currentState.semicolon.tokens[0]}`)
         counter++
         currentState=states[`state_${currentState.semicolon.nextState}`]
     }
@@ -462,7 +462,7 @@ function state_0Function(){
     }
     
 }
-console.log('0'.charCodeAt(0))
+
 function state_1Function(){
 
     if(character.charCodeAt(0)>=49 && character.charCodeAt(0)<=57){
@@ -474,39 +474,46 @@ function state_1Function(){
 
 function state_2Function(){
     
+    if(character=='x'){
+        index++
+        temp.push(character)
+        currentState=states[`state_${currentState.x.nextState}`]
+    }
+
+    else if(whiteSpaces.includes(character)){
+        whiteSpaceAfterNumber()
+    }
+
+    else if(character=='+'){
+        plusAfterNumber()
+    }
+
+    else if(character=='-'){
+        minusAfterNumber()
+    }
+
+    else{
+
+        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.plus.tokens[0]}`)
+        counter +=temp.length
+        temp.splice(0,temp.length)
+        currentState=states[`state_${currentState.exceptWhiteSpace_plus_minus.nextState}`]
+    }
 }
 
 
 function state_3Function(){
     
     if(whiteSpaces.includes(character)){
-        index++
-        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.whiteSpace.tokens[0]}`)
-        counter +=temp.length
-        temp.splice(0,temp.length)
-        tokens.push(`${counter}: whitespace-> ${currentState.whiteSpace.tokens[1]}`)
-        counter++
-        currentState=states[`state_${currentState.whiteSpace.nextState}`]
+        whiteSpaceAfterNumber()
     }
 
     else if(character=='+'){
-        index++
-        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.plus.tokens[0]}`)
-        counter +=temp.length
-        temp.splice(0,temp.length)
-        tokens.push(`${counter}: whitespace-> ${currentState.plus.tokens[1]}`)
-        counter++
-        currentState=states[`state_${currentState.plus.nextState}`]
+        plusAfterNumber()
     }
     
     else if(character=='-'){
-        index++
-        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.minus.tokens[0]}`)
-        counter +=temp.length
-        temp.splice(0,temp.length)
-        tokens.push(`${counter}: whitespace-> ${currentState.minus.tokens[1]}`)
-        counter++
-        currentState=states[`state_${currentState.minus.nextState}`]
+        minusAfterNumber()
     }
 
     else if(character.charCodeAt(0)>=48 && character.charCodeAt(0)<=57){
@@ -520,19 +527,71 @@ function state_3Function(){
         counter +=temp.length
         temp.splice(0,temp.length)
         currentState=states[`state_${currentState.exceptWhiteSpace_plus_minus_0_9.nextState}`]
-        if(context[index + 1]==undefined)
-            index++
     }
 }
 
 
 function state_4Function(){
+
+    if((character.charCodeAt(0)>=48 && character.charCodeAt(0)<=57) || 
+       (character.charCodeAt(0)>=65 && character.charCodeAt(0)<=70)||
+       (character.charCodeAt(0)>=97 && character.charCodeAt(0)<=102)){
+
+        index++
+        temp.push(character)
+        currentState=states[`state_${currentState.a_fA_F0_9.nextstate}`]
+       }
+
+    else if(whiteSpaces.includes(character)){
+        whiteSpaceAfterNumber()
+    }
+
+    else if(character=='+'){
+        plusAfterNumber()
+    }
+
+    else if(character=='-'){
+        minusAfterNumber()
+    }
+
+    else{
+
+        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.plus.tokens[0]}`)
+        counter +=temp.length
+        temp.splice(0,temp.length)
+        currentState=states[`state_${currentState.exceptWhiteSpace_plus_minus_0_9.nextState}`]
+
+    }
+
     
 }
 
 
 function state_5Function(){
+    if(whiteSpaces.includes(character)){
+        index++
+        tokens.push(`${counter}: whitespace -> ${currentState.whiteSpace.tokens[0]}`)
+        counter++
+        currentState=states[`state_${currentState.whiteSpace.nextState}`]
+    }
     
+    else if(character=='+'){
+        index++
+        tokens.push(`${counter}: + -> ${currentState.plus.tokens[0]}`)
+        counter++
+        currentState=states[`state_${currentState.plus.nextState}`]
+    }
+
+    else if(character=='-'){
+        index++
+        tokens.push(`${counter}: - -> ${currentState.minus.tokens[0]}`)
+        counter++
+        currentState=states[`state_${currentState.minus.nextState}`]
+    }
+
+    else{
+        currentState=states[`state_${currentState.exceptWhiteSpace_plus_minus.nextState}`]
+    }
 }
 
 
@@ -608,8 +667,40 @@ function state_19Function(){
 
 
 
+//------------------------------------------------------------------------------------------
 
 
+function whiteSpaceAfterNumber(){
+    index++
+    tokens.push(`${counter}: ${temp.join('')} -> ${currentState.whiteSpace.tokens[0]}`)
+    counter +=temp.length
+    temp.splice(0,temp.length)
+    tokens.push(`${counter}: whitespace -> ${currentState.whiteSpace.tokens[1]}`)
+    counter++
+    currentState=states[`state_${currentState.whiteSpace.nextState}`]
+}
+
+
+function plusAfterNumber(){
+    index++
+    tokens.push(`${counter}: ${temp.join('')} -> ${currentState.plus.tokens[0]}`)
+    counter +=temp.length
+    temp.splice(0,temp.length)
+    tokens.push(`${counter}: + -> ${currentState.plus.tokens[1]}`)
+    counter++
+    currentState=states[`state_${currentState.plus.nextState}`]
+}
+
+
+function minusAfterNumber(){
+    index++
+    tokens.push(`${counter}: ${temp.join('')} -> ${currentState.minus.tokens[0]}`)
+    counter +=temp.length
+    temp.splice(0,temp.length)
+    tokens.push(`${counter}: - -> ${currentState.minus.tokens[1]}`)
+    counter++
+    currentState=states[`state_${currentState.minus.nextState}`]
+}
 
 
 
