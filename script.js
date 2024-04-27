@@ -1,29 +1,12 @@
 let textarea=document.querySelector('textarea')
 let textareaWrapper=document.querySelector('.container')
 
-
-
-
-
-
  textarea.addEventListener('keyup',event=>textareaWrapper.innerHTML=event.target.value)
  
  document.querySelector('.btn').addEventListener('click',compileFunction)
 
 
-
-let numbersRegEX=/(?<!([a-zA-Z_\.](\w|\.)*))[-+]?([1-9]\d*|0)?(\.\d+)?(E[-+]?\d+)?(?!.*([a-zA-Z_\.](\w|\.)*))/g
-let numbersRegeXWithBehindOrAheadcotations=/(?<=('[^']*'|"[^"]*")+)[-+]?(\d+(\.\d+)?|\.\d+)(E[-+]?\d+)?/g
-let variableRegEX=/[a-zA-Z_](\d|[a-zA-Z_])*/g
-let whiteSpaceRegEX=/\s+/g
-let operatorsRegEX=/(==|<=|>=|!=|\|\||&&)|[-+*\/%<>=!\(\)\{\}\[\],;]/g
-let keyWordsRegEX=/(?<!\w)(bool|break|char|continue|else|false|for|if|int|print|return|true)(?!\w)/
-
-let stringRegEX=/"(\\"|[^"])*"/g
-let commentRegEX=/\/\/.*/gm
-
-
-let whiteSpaces=[' ','\n']
+let whiteSpaces=[' ','\t','\n']
 let keyWords=[{name:'bool', token:'T_Bool'},{name:'break',token:'T_Break'},{name:'char',token:'T_Char'},
 {name:'continue',token:'T_Continue'},{name:'else',token:'T_Else'},{name:'false',token:'T_False'},{name:'for',token:'T_For'},
 {name:'if',token:'T_If'},{name:'int',token:'T_Int'},{name:'print',token:'T_Print'},{name:'return',token:'T_Return'},
@@ -32,34 +15,33 @@ let keyWords=[{name:'bool', token:'T_Bool'},{name:'break',token:'T_Break'},{name
 
 let states={
 
-
-
  state_0:{
+    '*':{nextState:0, tokens:['T_AOp_ML']},
+    '%':{nextState:0,tokens:['T_AOp_RM']},
+    '(':{nextState:0,tokens:['T_LP']},
+    ')':{nextState:0,tokens:['T_RP']},
+    '{':{nextState:0,tokens:['T_LC']},
+    '}':{nextState:0,tokens:['T_RC']},
+    '[':{nextState:0,tokens:['T_LB']},
+    ']':{nextState:0,tokens:['T_RB']},
+    ',':{nextState:0,tokens:['T_Comma']},
+    ';':{nextState:0,tokens:['T_Semicolon']},
     stateNumber:0,
     whiteSpace:{nextState:0, tokens:['T_Whitespace']},
-    multiplication:{nextState:0, tokens:['T_AOp_ML']},
     division:{nextState:18,tokens:null},
-    reminder:{nextState:0,tokens:['T_AOp_RM']},
-    parenthesisOpen:{nextState:0,tokens:['T_LP']},
-    parenthesisClose:{nextState:0,tokens:['T_RP']},
-    braceOpen:{nextState:0,tokens:['T_LC']},
-    braceClose:{nextState:0,tokens:['T_RC']},
-    bracketOpen:{nextState:0,tokens:['T_LB']},
-    bracketClose:{nextState:0,tokens:['T_RB']},
-    comma:{nextState:0,tokens:['T_Comma']},
-    semicolon:{nextState:0,tokens:['T_Semicolon']},
-    plus_Minus:{nextState:1,tokens:null},
+    
+    '+-':{nextState:1,tokens:null},
     number1_9:{nextState:3,tokens:null},
-    number0:{nextState:2,tokens:null},
+    '0':{nextState:2,tokens:null},
     a_ZA_Z_:{nextState:6,tokens:null},
-    less:{nextState:7,tokens:null},
-    greater:{nextState:8,tokens:null},
-    equal:{nextState:9,tokens:null},
-    not:{nextState:10,tokens:null},
-    and:{nextState:11,tokens:null},
-    or:{nextState:12,tokens:null},
-    quotation:{nextState:13,tokens:null},
-    doubleQuotation:{nextState:16,tokens:null}
+    '<':{nextState:7,tokens:null},
+    '>':{nextState:8,tokens:null},
+    '=':{nextState:9,tokens:null},
+    '!':{nextState:10,tokens:null},
+    '&':{nextState:11,tokens:null},
+    '|':{nextState:12,tokens:null},
+    "'":{nextState:13,tokens:null},
+    '"':{nextState:16,tokens:null}
 },
 
  state_1:{
@@ -108,6 +90,7 @@ let states={
     plus:{nextState:0, tokens:['T_Id','T_AOp_PL']},
     minus:{nextState:0, tokens:['T_Id','T_AOp_MN']},
     exceptWhiteSpace_plus_minus_a_ZA_Z0_9_:{nextState:0,tokens:['T_Id']}
+    
 },
 
  state_7:{
@@ -164,7 +147,7 @@ let states={
     stateNumber:16,
     backSlash:{nextState:17,tokens:null},
     exceptDoubleQuotation:{nextState:16,tokens:null},
-    doubleQuotation:{nextState:16,tokens:['T_String']}
+    doubleQuotation:{nextState:0,tokens:['T_String']}
 },
 
  state_17:{
@@ -209,9 +192,8 @@ function compileFunction(event){
 
 
     while(context[index]!=undefined){
-
-        character=context[index]
         
+        character=context[index]
         switch(currentState){
             case states.state_0:
                 state_0Function()
@@ -294,10 +276,11 @@ function compileFunction(event){
                 break
 
             default:
-                break 
+                break
         }
         
     }
+    console.log(tokens)
 
 }
 
@@ -312,11 +295,11 @@ function state_0Function(){
         currentState=states[`state_${currentState.whiteSpace.nextState}`]
     }
 
-    else if(character=='*'){
+    else if(['*','%','(',')','{','}','[',']',',',';'].includes(character)){
         index++
-        tokens.push(`${counter}: * -> ${currentState.multiplication.tokens[0]}`)
+        tokens.push(`${counter}: ${character} -> ${states.state_0[`${character}`].tokens[0]}`)
         counter++
-        currentState=states[`state_${currentState.multiplication.nextState}`]
+        currentState=states[`state_${currentState[`${character}`].nextState}`]
     }
 
     else if(character=='/'){
@@ -325,73 +308,10 @@ function state_0Function(){
         currentState=states[`state_${currentState.division.nextState}`]
     }
 
-    else if(character=='%'){
-        index++
-        tokens.push(`${counter}: % -> ${currentState.reminder.tokens[0]}`)
-        counter++
-        currentState=states[`state_${currentState.reminder.nextState}`]
-    }
-
-    else if(character=='('){
-        index++
-        tokens.push(`${counter}: () -> ${currentState.parenthesisOpen.tokens[0]}`)
-        counter++
-        currentState=states[`state_${currentState.parenthesisOpen.nextState}`]
-    }
-
-    else if(character==')'){
-        index++
-        tokens.push(`${counter}: ) -> ${currentState.parenthesisClose.tokens[0]}`)
-        counter++
-        currentState=states[`state_${currentState.parenthesisClose.nextState}`]
-    }
-
-    else if(character=='{'){
-        index++
-        tokens.push(`${counter}: { -> ${currentState.braceOpen.tokens[0]}`)
-        counter++
-        currentState=states[`state_${currentState.braceOpen.nextState}`]
-    }
-
-    else if(character=='}'){
-        index++
-        tokens.push(`${counter}: } -> ${currentState.braceClose.tokens[0]}`)
-        counter++
-        currentState=states[`state_${currentState.braceClose.nextState}`]
-    }
-
-    else if(character=='['){
-        index++
-        tokens.push(`${counter}: [ -> ${currentState.bracketOpen.tokens[0]}`)
-        counter++
-        currentState=states[`state_${currentState.bracketOpen.nextState}`]
-    }
-
-    else if(character==']'){
-        index++
-        tokens.push(`${counter}: ] -> ${currentState.bracketClose.tokens[0]}`)
-        counter++
-        currentState=states[`state_${currentState.bracketClose.nextState}`]
-    }
-
-    else if(character==','){
-        index++
-        tokens.push(`${counter}: , -> ${currentState.comma.tokens[0]}`)
-        counter++
-        currentState=states[`state_${currentState.comma.nextState}`]
-    }
-
-    else if(character==';'){
-        index++
-        tokens.push(`${counter}: ; -> ${currentState.semicolon.tokens[0]}`)
-        counter++
-        currentState=states[`state_${currentState.semicolon.nextState}`]
-    }
-
-    else if(character=='+' || character=='-'){
+    else if(['+','-'].includes(character)){
         index++
         temp.push(character)
-        currentState=states[`state_${currentState.plus_Minus.nextState}`]
+        currentState=states[`state_${currentState[`+-`].nextState}`]
     }
 
     else if(character.charCodeAt(0)>=49 && character.charCodeAt(0)<=57){
@@ -400,11 +320,6 @@ function state_0Function(){
         currentState=states[`state_${currentState.number1_9.nextState}`]
     }
 
-    else if(character=='0'){
-        index++
-        temp.push(character)
-        currentState=states[`state_${currentState.number0.nextState}`]
-    }
 
     else if(character=='_'||(character.charCodeAt(0)>=97 && character.charCodeAt(0)<=122)|| 
     (character.charCodeAt(0)>=65 && character.charCodeAt(0)<=90)){
@@ -413,52 +328,10 @@ function state_0Function(){
         currentState=states[`state_${currentState.a_ZA_Z_.nextState}`]
     }
 
-    else if(character=='<'){
+    else if(['<','>','=','!','&','|',"'",'"','0'].includes(character)){
         index++
         temp.push(character)
-        currentState=states[`state_${currentState.less.nextState}`]
-    }
-
-    else if(character=='>'){
-        index++
-        temp.push(character)
-        currentState=states[`state_${currentState.greater.nextState}`]
-    }
-
-    else if(character=='='){
-        index++
-        temp.push(character)
-        currentState=states[`state_${currentState.equal.nextState}`]
-    }
-    
-    else if(character=='!'){
-        index++
-        temp.push(character)
-        currentState=states[`state_${currentState.not.nextState}`]
-    }
-    
-    else if(character=='&'){
-        index++
-        temp.push(character)
-        currentState=states[`state_${currentState.and.nextState}`]
-    }
-
-    else if(character=='|'){
-        index++
-        temp.push(character)
-        currentState=states[`state_${currentState.or.nextState}`]
-    }
-
-    else if(character="'"){
-        index++
-        temp.push(character)
-        currentState=states[`state_${currentState.quotation.nextState}`]
-    }
-
-    else if(character='"'){
-        index++
-        temp.push(character)
-        currentState=states[`state_${currentState.doubleQuotation.nextState}`]
+        currentState=states[`state_${currentState[`${character}`].nextState}`]
     }
     
 }
@@ -619,7 +492,7 @@ function state_6Function(){
     }
 
     else{
-        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.execptWhiteSpace_plus_minus_a_ZA_Z0_9.tokens[0]}`)
+        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.exceptWhiteSpace_plus_minus_a_ZA_Z0_9_.tokens[0]}`)
         counter +=temp.length
         temp.splice(0,temp.length)
         currentState=states[`state_${currentState.exceptWhiteSpace_plus_minus_a_ZA_Z0_9_.nextState}`]
@@ -763,6 +636,7 @@ function state_17Function(){
 
 
 function state_18Function(){
+    console.log('Nasrin joonam')
     if(character=='/'){
         index++
         temp.push(character)
@@ -784,6 +658,7 @@ function state_19Function(){
         counter +=temp.length
         temp.splice(0,temp.length)
         tokens.push(`${counter}: whitespace -> ${currentState.newLine.tokens[1]}`)
+        counter++
         currentState=states[`state_${currentState.newLine.nextState}`]
     }
     else{
@@ -793,12 +668,7 @@ function state_19Function(){
     }
 }
 
-
-
-
-
 //------------------------------------------------------------------------------------------------
-
 
 function whiteSpaceAfterNumber(){
     index++
@@ -809,7 +679,6 @@ function whiteSpaceAfterNumber(){
     counter++
     currentState=states[`state_${currentState.whiteSpace.nextState}`]
 }
-
 
 function plusAfterNumber(){
     index++
@@ -867,15 +736,12 @@ function plusAfterID(){
     currentState=states[`state_${currentState.plus.nextState}`]
 }
 
-
 function minusAfterID(){
-
     index++
     if(!checkKeyWords()){
         tokens.push(`${counter}: ${temp.join('')} -> ${currentState.minus.tokens[0]}`)
         counter +=temp.length
     }
-
     temp.splice(0,temp.length)
     tokens.push(`${counter}: - -> ${currentState.minus.tokens[1]}`)
     counter++
@@ -883,19 +749,17 @@ function minusAfterID(){
 }
 
 function whiteSpaceAfterID(){
-
+    console.log(temp.join(''))
     index++
     if(!checkKeyWords()){
         tokens.push(`${counter}: ${temp.join('')} -> ${currentState.whiteSpace.tokens[0]}`)
         counter +=temp.length
     }
-
     temp.splice(0,temp.length)
     tokens.push(`${counter}: whitespace -> ${currentState.whiteSpace.tokens[1]}`)
     counter++
     currentState=states[`state_${currentState.whiteSpace.nextState}`]
 }
-
 
 let flag
 
@@ -904,7 +768,8 @@ function checkKeyWords(){
 
         if(keyWord.name==temp.join('')){
             tokens.push(`${counter}: ${keyWord.name} -> ${keyWord.token}`)
-            counter+=keyWord.name,length
+            counter+=keyWord.name.length
+            
             return true
         }
         return false
