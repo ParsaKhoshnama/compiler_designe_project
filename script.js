@@ -492,8 +492,14 @@ function state_6Function(){
     }
 
     else{
-        tokens.push(`${counter}: ${temp.join('')} -> ${currentState.exceptWhiteSpace_plus_minus_a_ZA_Z0_9_.tokens[0]}`)
+       /* tokens.push(`${counter}: ${temp.join('')} -> ${currentState.exceptWhiteSpace_plus_minus_a_ZA_Z0_9_.tokens[0]}`)
         counter +=temp.length
+        temp.splice(0,temp.length)
+        currentState=states[`state_${currentState.exceptWhiteSpace_plus_minus_a_ZA_Z0_9_.nextState}`]*/
+        if(!checkKeyWords()){
+            tokens.push(`${counter}: ${temp.join('')} -> ${currentState.whiteSpace.tokens[0]}`)
+            counter +=temp.length
+        }
         temp.splice(0,temp.length)
         currentState=states[`state_${currentState.exceptWhiteSpace_plus_minus_a_ZA_Z0_9_.nextState}`]
     }
@@ -749,7 +755,6 @@ function minusAfterID(){
 }
 
 function whiteSpaceAfterID(){
-    console.log(temp.join(''))
     index++
     if(!checkKeyWords()){
         tokens.push(`${counter}: ${temp.join('')} -> ${currentState.whiteSpace.tokens[0]}`)
