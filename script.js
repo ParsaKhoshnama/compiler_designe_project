@@ -5,6 +5,12 @@ let textareaWrapper=document.querySelector('.container')
  
  document.querySelector('.btn').addEventListener('click',compileFunction)
 
+window.addEventListener('load',(event)=>{
+    textarea.value=''
+    textareaWrapper.innerHTML=''
+})
+
+
 
 let whiteSpaces=[' ','\t','\n']
 let keyWords=[{name:'bool', token:'T_Bool'},{name:'break',token:'T_Break'},{name:'char',token:'T_Char'},
@@ -34,8 +40,8 @@ let states={
     number1_9:{nextState:3,tokens:null},
     '0':{nextState:2,tokens:null},
     a_ZA_Z_:{nextState:6,tokens:null},
-    '<':{nextState:7,tokens:null},
-    '>':{nextState:8,tokens:null},
+    '<':{nextState:7,tokens:null},//<
+    '>':{nextState:8,tokens:null},//>
     '=':{nextState:9,tokens:null},
     '!':{nextState:10,tokens:null},
     '&':{nextState:11,tokens:null},
@@ -185,15 +191,17 @@ let state
 
 function compileFunction(event){
 
-    context=textareaWrapper.innerHTML
+    context=textarea.value
     currentState=states.state_0
     index=0
     counter=0
 
-
+    console.log(context[0])
     while(context[index]!=undefined){
         
         character=context[index]
+      
+
         switch(currentState){
             case states.state_0:
                 state_0Function()
@@ -642,7 +650,7 @@ function state_17Function(){
 
 
 function state_18Function(){
-    console.log('Nasrin joonam')
+    
     if(character=='/'){
         index++
         temp.push(character)
@@ -785,8 +793,6 @@ function checkKeyWords(){
 
 
 
-
- 
 
 
 
