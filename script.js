@@ -74,7 +74,7 @@ let states={
 
  state_2:{
     stateNumber:2,
-    x:{nextState:4,tokens:null},
+    'x':{nextState:4,tokens:null},
     whiteSpace:{nextState:5, tokens:['T_Decimal','T_Whitespace']},
     plus:{nextState:0, tokens:['T_Decimal','T_AOp_PL']},
     minus:{nextState:0, tokens:['T_Decimal','T_AOp_MN']},
@@ -141,7 +141,8 @@ let states={
 
  state_14:{
     stateNumber:14,
-    quotation:{nextState:15,tokens:null}
+    quotation:{nextState:15,tokens:null},
+    exceptQuotation:{nextState:15,tokens:null}
 },
 
   state_15:{
@@ -158,7 +159,8 @@ let states={
 
  state_17:{
     stateNumber:17,
-    doubleQuotation:{nextState:16,tokens:null}
+    doubleQuotation:{nextState:16,tokens:null},
+    exceptDoubleQuotation:{nextState:16,tokens:null}
 },
 
  state_18:{
@@ -354,11 +356,10 @@ function state_1Function(){
 }
 
 function state_2Function(){
-    
-    if(character=='x'){
+    if(character.toLowerCase()=='x'){
         index++
         temp.push(character)
-        currentState=states[`state_${currentState.x.nextState}`]
+        currentState=states[`state_${currentState[`x`].nextState}`]
     }
 
     else if(whiteSpaces.includes(character)){
@@ -596,11 +597,12 @@ function state_13Function(){
 
 
 function state_14Function(){
-    if(character=="'"){
-        index++
-        temp.push(character)
+    index++
+    temp.push(character)
+    if(character=="'")
         currentState=states[`state_${currentState.quotation.nextState}`]
-    }
+    else
+    currentState=states[`state_${currentState.exceptQuotation.nextState}`]
 }
 
 
@@ -641,11 +643,12 @@ function state_16Function(){
 
 
 function state_17Function(){
-    if(character=='"'){
-        index++
-        temp.push(character)
+    index++
+    temp.push(character)
+    if(character=='"')
         currentState=states[`state_${currentState.doubleQuotation.nextState}`]
-    }
+    else
+        currentState=states[`state_${currentState.exceptDoubleQuotation.nextState}`]
 }
 
 

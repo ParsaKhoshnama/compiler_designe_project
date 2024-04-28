@@ -74,8 +74,9 @@ body{
    /*  white-space:pre-wrap !important;
    word-wrap: break-word !important;*/
    white-space:pre;
-   padding-bottom: 45px;
-   padding-right: 30px;
+    border: 1px solid white;
+    padding-right: 45px;
+    padding-bottom: 45px;
    
 }
 
