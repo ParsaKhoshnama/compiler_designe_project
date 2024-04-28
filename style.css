@@ -75,7 +75,7 @@ body{
    word-wrap: break-word !important;*/
    white-space:pre;
    border-bottom: 30px solid white;
-   background-color: aqua;
+   /*background-color: aqua;*/
 }
 
 textarea{

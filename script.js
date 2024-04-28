@@ -197,8 +197,6 @@ function compileFunction(event){
     currentState=states.state_0
     index=0
     counter=0
-
-    console.log(context[0])
     while(context[index]!=undefined){
         
         character=context[index]
@@ -290,7 +288,8 @@ function compileFunction(event){
         }
         
     }
-    console.log(tokens)
+       tokens.forEach(token=>{console.log(token)})
+
 
 }
 
@@ -516,45 +515,38 @@ function state_6Function(){
 
 
 function state_7Function(){
-    if(character=='='){
+    if(character=='=')
         equalFunction()
-    }
 
-    else{
+    else
         nonEqualFunction()
-    }
 }
 
 
 function state_8Function(){
-    if(character=='='){
+    if(character=='=')
         equalFunction()
-    }
 
-    else{
+    else
         nonEqualFunction()
-    }
 }
 
 
 function state_9Function(){
-    if(character=='='){
+    if(character=='=')
         equalFunction()
-    }
 
-    else{
+    else
         nonEqualFunction()
-    }
+  
 }
 
 function state_10Function(){
-    if(character=='='){
+    if(character=='=')
         equalFunction()
-    }
 
-    else{
+    else
         nonEqualFunction()
-    }
 }
 
 
@@ -792,6 +784,7 @@ function checkKeyWords(){
     })
     return flag
 }
+
 
 
 
