@@ -10,21 +10,23 @@
     border: none;
     color: white;
     background-color: green;
-    width: 90px;
-    height: 30px;
+    width: 140px;
+    height: 80px;
     border-radius: 10px;
     border: 5px solid red;
     transition: all 300ms linear;
     cursor: pointer;
+    font-size: 20px;
 }
 
 .btn:hover{
-    background-color: blue;
+    background-color:blue;
     border-color:green;
+    transform: scale(1.4);
 }
 
 .btn:active{
-    transform: scale(1.4);
+    
 }
 
 .box{
