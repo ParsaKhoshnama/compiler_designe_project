@@ -52,7 +52,10 @@ let states={
 
  state_1:{
     stateNumber:1,
-    number1_9:{nextState:3, tokens:null}
+    number1_9:{nextState:3, tokens:null},
+    '+':{nextState:0,tokens:['T_AOp_PL','T_AOp_PL']},
+    '-':{nextState:0 , tokens:['T_AOp_MN','T_AOp_MN']},
+    exceptNumber1_9_Plus_minus:{nextState:0 , tokens:[]}
 },
 
  state_3:{
@@ -351,6 +354,21 @@ function state_1Function(){
         index++
         temp.push(character)
         currentState=states[`state_${currentState.number1_9.nextState}`]
+    }
+    else if(['+','-'].includes(character)){
+        index++
+        temp.splice(0,temp.length)
+        tokens.push(`${counter}: ${character} -> ${currentState[`${character}`].tokens[0]}`)
+        counter++
+        tokens.push(`${counter}: ${character} -> ${currentState[`${character}`].tokens[1]}`)
+        currentState=states[`state_${currentState[`${character}`].nextState}`]
+    }
+    else{
+
+        tokens.push(`${counter}: ${character} -> ${currentState[`${character}`].tokens[0]}`)
+        counter++
+        temp.splice(0,temp.length)
+        currentState=states[`state_${currentState.exceptNumber1_9_Plus_minus.nextState}`]
     }
 }
 
