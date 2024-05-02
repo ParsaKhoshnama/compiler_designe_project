@@ -208,6 +208,7 @@ function compileFunction(event){
 
     tokens.splice(0,tokens.length)
     temp.splice(0,temp.length)
+    console.clear()
     
     while(context[index]!=undefined){
         character=context[index]
