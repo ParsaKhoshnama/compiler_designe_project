@@ -193,13 +193,22 @@ let counter
 
 let state
 
+let flagForLastCharacter
 
 function compileFunction(event){
-
+    flagForLastCharacter=false
     context=textarea.value
+    if(!whiteSpaces.includes(context[context.length - 1])){
+        context +='\n'
+        flagForLastCharacter=true
+    }
     currentState=states.state_0
     index=0
     counter=0
+
+    tokens.splice(0,tokens.length)
+    temp.splice(0,temp.length)
+    
     while(context[index]!=undefined){
         character=context[index]
         switch(currentState){
@@ -288,6 +297,8 @@ function compileFunction(event){
         }
         
     }
+       if(flagForLastCharacter)
+            tokens.pop()
        tokens.forEach(token=>{console.log(token)})
 
 
@@ -358,7 +369,7 @@ function state_1Function(){
         temp.splice(0,temp.length)
         tokens.push(`${counter}: ${character} -> ${currentState[`${character}`].tokens[0]}`)
         counter++
-        currentState=states[`state_${states.state_1[`${character}`].nextState}`]
+        currentState=states[`state_${currentState[`${character}`].nextState}`]
     }
     else{
 
