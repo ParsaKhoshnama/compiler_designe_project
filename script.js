@@ -53,8 +53,8 @@ let states={
  state_1:{
     stateNumber:1,
     number1_9:{nextState:3, tokens:null},
-    '+':{nextState:0,tokens:['T_AOp_PL','T_AOp_PL']},
-    '-':{nextState:0 , tokens:['T_AOp_MN','T_AOp_MN']},
+    '+':{nextState:0,tokens:['T_AOp_PL']},
+    '-':{nextState:0 , tokens:['T_AOp_MN']},
     exceptNumber1_9_Plus_minus:{nextState:0 , tokens:[]}
 },
 
@@ -201,10 +201,7 @@ function compileFunction(event){
     index=0
     counter=0
     while(context[index]!=undefined){
-        
         character=context[index]
-      
-
         switch(currentState){
             case states.state_0:
                 state_0Function()
@@ -345,7 +342,6 @@ function state_0Function(){
         temp.push(character)
         currentState=states[`state_${currentState[`${character}`].nextState}`]
     }
-    
 }
 
 function state_1Function(){
@@ -357,19 +353,21 @@ function state_1Function(){
     }
     else if(['+','-'].includes(character)){
         index++
+        tokens.push(`${counter}: ${temp[0]} -> ${currentState[`${temp[0]}`].tokens[0]}`)
+        counter++
         temp.splice(0,temp.length)
         tokens.push(`${counter}: ${character} -> ${currentState[`${character}`].tokens[0]}`)
         counter++
-        tokens.push(`${counter}: ${character} -> ${currentState[`${character}`].tokens[1]}`)
-        currentState=states[`state_${currentState[`${character}`].nextState}`]
+        currentState=states[`state_${states.state_1[`${character}`].nextState}`]
     }
     else{
 
-        tokens.push(`${counter}: ${character} -> ${currentState[`${character}`].tokens[0]}`)
+        tokens.push(`${counter}: ${temp[0]} -> ${currentState[`${temp[0]}`].tokens[0]}`)
         counter++
         temp.splice(0,temp.length)
         currentState=states[`state_${currentState.exceptNumber1_9_Plus_minus.nextState}`]
     }
+   
 }
 
 function state_2Function(){
@@ -801,6 +799,12 @@ function checkKeyWords(){
         return false
     })
     return flag
+}
+
+
+function exceptFunctionForEndingContext(token,tokenName){
+    tokens.push(`${counter}: ${token} -> ${tokenName} `)
+    temp.splice(0,temp.length)
 }
 
 
