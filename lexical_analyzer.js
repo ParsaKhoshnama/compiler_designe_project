@@ -1,14 +1,4 @@
-let textarea=document.querySelector('textarea')
-let textareaWrapper=document.querySelector('.container')
 
- textarea.addEventListener('keyup',event=>textareaWrapper.innerHTML=event.target.value)
- 
- document.querySelector('.btn').addEventListener('click',compileFunction)
-
-window.addEventListener('load',(event)=>{
-    textarea.value=''
-    textareaWrapper.innerHTML=''
-})
 
 
 
@@ -182,22 +172,17 @@ let states={
 }
 
 let currentState
-var index
-let context
+let index
 let character
 let temp=[]
 let tokens=[]
-
-
 let counter
 
-let state
 
 let flagForLastCharacter
 
-function compileFunction(event){
+function lexical_analyzer_function(context){
     flagForLastCharacter=false
-    context=textarea.value
     if(!whiteSpaces.includes(context[context.length - 1])){
         context +='\n'
         flagForLastCharacter=true
@@ -300,9 +285,8 @@ function compileFunction(event){
     }
        if(flagForLastCharacter)
             tokens.pop()
-       tokens.forEach(token=>{console.log(token)})
-
-
+       
+       return tokens
 }
 
 
@@ -818,6 +802,10 @@ function exceptFunctionForEndingContext(token,tokenName){
     tokens.push(`${counter}: ${token} -> ${tokenName} `)
     temp.splice(0,temp.length)
 }
+
+
+
+export {lexical_analyzer_function}
 
 
 
