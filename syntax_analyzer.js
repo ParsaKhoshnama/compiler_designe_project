@@ -88,7 +88,8 @@ let paresrTable={
     "c":{";":[";"],"{":["{","d","}"]},
     "d":{"T_Return":["T_Return","d'"],"(":["Statement","d"] , "!":["Statement","d"] , "T_Id":["Statement","d"] , "T_Decimal":["Statement","d"] , "T_Hexadecimal":["Statement","d"] , "T_String":["Statement","d"] , "T_Character":["Statement","d"] , "T_True":["Statement","d"] , "T_False":["Statement","d"], "+":["Statement","d"] , "-":["Statement","d"], ";":["Statement","d"] , "T_If":["Statement","d"] , "T_For":["Statement","d"] , "T_Bool":["Statement","d"] , "T_Int":["Statement","d"] , "T_Char":["Statement","d"],"T_Void":["Statement","d"]  , "T_Print":["Statement","d"],"}":["#"]},
     "d'":{";":[";","d"],"(":["S",";","d"], "T_Id":["S",";","d"] , "T_Deciaml":["S",";","d"] , "T_Hexadecimal":["S",";","d"] , "T_String":["S",";","d"] , "T_Character":["S",";","d"] , "T_True":["S",";","d"] , "T_False":["S",";","d"] , "+":["S",";","d"] , "-":["S",";","d"], "!":["S",";","d"]},
-    
+    "Print":{"T_Print":["T_Print"]},
+    "g":{",":[",","S","g"],")":["#"]}
 
 }
 
