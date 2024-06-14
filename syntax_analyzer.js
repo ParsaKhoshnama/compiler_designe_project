@@ -38,7 +38,8 @@ console.log(tokensForSyntaxAnalyzer)
    
  })
 
-
+let object={"Nasrin":{"Eshgham":"Nasrin Joonam"}}
+console.log(object['Nasrin']['Eshgham']);
 
  let nonTerminals = {
     "Statements": {
@@ -264,6 +265,14 @@ console.log(tokensForSyntaxAnalyzer)
     "d'":{
         "First":[";","(", "T_Id" , "T_Deciaml" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-", "!" ],
         "Follow":["}"]
+    },
+    "Print":{
+        "First":["T_Print"],
+        "Follow":[";"]
+    },
+    "g":{
+        "First":[",","#"],
+        "Follow":[")"]
     }
 
 
