@@ -26,8 +26,8 @@ let nonTerminals = {
         "Follow":["(" , "T_Id"]
     },
     "A'":{
-        "First":["+" , "-" , "*" , "/" , "%" , "#" ],
-        "Follow":["+" , "-" , "*" , "/" , "%" ]
+        "First":["+" , "-" , "*" , "/" , "%" ,"=", "#" ],
+        "Follow":["+" , "-" , "*" , "/" , "%","=" ]
     },
     "P'":{
         "First": ["(", "T_Id" , "T_Deciaml" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-" ,"!" ],
@@ -118,11 +118,11 @@ let nonTerminals = {
         "Follow":[")"]
     },
     "Def":{
-        "First":["#", "[" , "=" , "," , ";" , "(" ],
+        "First":["[" , "=" , "," , ";" , "(" ],
         "Follow":["(", "!"  , "T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False", "+" , "-" , ";" , "T_If" , "T_For" , "T_Bool" , "T_Int" , "T_Char","T_Void"  , "T_Print" , "T_Else" , "T_Return" , "T_Break" , "T_Continue","}", "$"]
     },
     "Var":{
-        "First":["#", "[" , "=" , "," , ";" ],
+        "First":["[" , "=" , "," , ";" ],
         "Follow":["(", "!"  , "T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False", "+" , "-" , ";" , "T_If" , "T_For" , "T_Bool" , "T_Int" , "T_Char","T_Void"  , "T_Print" , "T_Else" , "T_Return" , "T_Break" , "T_Continue","}", "$"]
     },
     "U":{
@@ -142,7 +142,7 @@ let nonTerminals = {
         "Follow":["(", "!"  , "T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False", "+" , "-" , ";" , "T_If" , "T_For" , "T_Bool" , "T_Int" , "T_Char","T_Void"  , "T_Print" , "T_Else" , "T_Return" , "T_Break" , "T_Continue","}", "$"]
     },
     "a":{
-        "First":["(" , "!" , "T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False", "+" , "-", ";" , "T_If" , "T_For" , "T_Bool" , "T_Int" , "T_Char","T_Void"  , "T_Print"],
+        "First":["#","(" , "!" , "T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False", "+" , "-", ";" , "T_If" , "T_For" , "T_Bool" , "T_Int" , "T_Char","T_Void"  , "T_Print"],
         "Follow":["}"]
     },
     "Y":{
@@ -158,7 +158,7 @@ let nonTerminals = {
         "Follow":["(", "!"  , "T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False", "+" , "-" , ";" , "T_If" , "T_For" , "T_Bool" , "T_Int" , "T_Char","T_Void"  , "T_Print" , "T_Else" , "T_Return" , "T_Break" , "T_Continue","}", "$"]
     },
     "h":{
-        "First":["T_Int" , "T_Char" , "T_Bool" , "T_Void" , "(","T_Id" , "T_Deciaml" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-", "!" ],
+        "First":["#","T_Int" , "T_Char" , "T_Bool" , "T_Void" , "(","T_Id" , "T_Deciaml" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-", "!" ],
         "Follow":[";"]
     },
     "h'":{
@@ -171,6 +171,10 @@ let nonTerminals = {
     },
     "j":{
         "First":["{","T_Break" , "T_Continue"   , "(", "!"  , "T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False", "+" , "-" , ";" , "T_If" , "T_For" , "T_Bool" , "T_Int" , "T_Char","T_Void"  , "T_Print" ],
+        "Follow":["(", "!"  , "T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False", "+" , "-" , ";" , "T_If" , "T_For" , "T_Bool" , "T_Int" , "T_Char","T_Void"  , "T_Print" , "T_Else" , "T_Return" , "T_Break" , "T_Continue","}", "$"]
+    },
+    "LCommands":{
+        "First":["T_Break","T_Continue"],
         "Follow":["(", "!"  , "T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False", "+" , "-" , ";" , "T_If" , "T_For" , "T_Bool" , "T_Int" , "T_Char","T_Void"  , "T_Print" , "T_Else" , "T_Return" , "T_Break" , "T_Continue","}", "$"]
     },
     "z":{

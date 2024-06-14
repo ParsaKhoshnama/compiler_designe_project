@@ -57,6 +57,22 @@ let paresrTable={
     "N":{"+":["+","+"],"-":["-","-"]},
     "K'":{"*":["L","M","K'"] , "/":["L","M","K'"] , "%":["L","M","K'"] , "+":["#"],"-":["#"],"<":["#"] ,"<=":["#"] , ">":["#"] , ">=":["#"] , "==":["#"] , "!=":["#"] , "&&":["#"] ,"||":["#"] , ";":["#"]  , "]":["#"] , ")":["#"] , ",":["#"] },
     "L":{"*":["*"] , "/":["/"] , "%":["%"]},
+    "Q":{"T_Id":["R","T"] , "T_Deciaml":["R","T"] , "T_Hexadecimal":["R","T"] , "T_String":["R","T"] , "T_Character":["R","T"] , "T_True":["R","T"] , "T_False":["R","T"],")":["#"]},
+    "R":{"T_Id":["T_Id"] , "T_Deciaml":["T_Deciaml"] , "T_Hexadecimal":["T_Hexadecimal"] , "T_String":["T_String"] , "T_Character":["T_Character"] , "T_True":["T_True"] , "T_False":["T_False"]},
+    "T":{",":[",","R","T"],")":["#"]},
+    "Def":{"[":["Var"] , "=":["Var"] , ",":["Var"] , ";":["Var"] , "(":["Function"]},
+    "Var":{"[":["U","W",";"] , "=":["U","W",";"] , ",":["U","W",";"] , ";":["U","W",";"]},
+    "U":{"[":["[","S","]"] , "=":["=","S"],",":["#"] , ";":["#"]},
+    "W":{",":[",","Var"],";":["#"]},
+    "IF":{"T_If":["T_If","(","S",")","X","Y","Z"]},
+    "X":{"{":["{","a","}"],"(":["Statement"] , "!":["Statement"] , "T_Id":["Statement"] , "T_Decimal":["Statement"] , "T_Hexadecimal":["Statement"] , "T_String":["Statement"] , "T_Character":["Statement"] , "T_True":["Statement"] , "T_False":["Statement"], "+":["Statement"] , "-":["Statement"], ";":["Statement"] , "T_If":["Statement"] , "T_For":["Statement"] , "T_Bool":["Statement"] , "T_Int":["Statement"] , "T_Char":["Statement"],"T_Void":["Statement"]  , "T_Print":["Statement"]},
+    "a":{"(":["Statement","a"] , "!":["Statement","a"] , "T_Id":["Statement","a"] , "T_Decimal":["Statement","a"] , "T_Hexadecimal":["Statement","a"] , "T_String":["Statement","a"] , "T_Character":["Statement","a"] , "T_True":["Statement","a"] , "T_False":["Statement","a"], "+":["Statement","a"] , "-":["Statement","a"], ";":["Statement","a"] , "T_If":["Statement","a"] , "T_For":["Statement","a"] , "T_Bool":["Statement","a"] , "T_Int":["Statement","a"] , "T_Char":["Statement","a"],"T_Void":["Statement","a"]  , "T_Print":["Statement","a"],"}":["#"]},
+    "Y":{"T_Else":["T_Else","T_If","(","S",")","X","Y"],"(":["#"], "!":["#"]  , "T_Id":["#"] , "T_Decimal":["#"] , "T_Hexadecimal":["#"] , "T_String":["#"] , "T_Character":["#"] , "T_True":["#"] , "T_False":["#"], "+":["#"] , "-":["#"] , ";":["#"] , "T_If":["#"] , "T_For":["#"] , "T_Bool":["#"] , "T_Int":["#"] , "T_Char":["#"],"T_Void":["#"]  , "T_Print":["#"] , "T_Else":["#"] , "T_Return":["#"] , "T_Break":["#"] , "T_Continue":["#"],"}":["#"], "$":["#"]},
+    "Z":{"T_Else":["T_Else","T_If","(","S",")","X","Y"],"(":["#"], "!":["#"]  , "T_Id":["#"] , "T_Decimal":["#"] , "T_Hexadecimal":["#"] , "T_String":["#"] , "T_Character":["#"] , "T_True":["#"] , "T_False":["#"], "+":["#"] , "-":["#"] , ";":["#"] , "T_If":["#"] , "T_For":["#"] , "T_Bool":["#"] , "T_Int":["#"] , "T_Char":["#"],"T_Void":["#"]  , "T_Print":["#"] , "T_Else":["#"] , "T_Return":["#"] , "T_Break":["#"] , "T_Continue":["#"],"}":["#"], "$":["#"]},
+    "For":{"T_For":["T_For","(","h",";","i",";","i",")","j"]},
+    "h":{"T_Int":["Type","T_Id","h'"] , "T_Char":["Type","T_Id","h'"] , "T_Bool":["Type","T_Id","h'"] , "T_Void":["Type","T_Id","h'"] , "(":["S"],"T_Id":["S"] , "T_Deciaml":["S"] , "T_Hexadecimal":["S"] , "T_String":["S"] , "T_Character":["S"] , "T_True":["S"] , "T_False":["S"] , "+":["S"] , "-":["S"], "!":["S"],";":["#"]},
+    "h'":{"=":["=","S"],";":["#"]},
+    "i":{"(":["S"], "T_Id":["S"] , "T_Deciaml":["S"] , "T_Hexadecimal":["S"] , "T_String":["S"] , "T_Character":["S"] , "T_True":["S"] , "T_False":["S"] , "+":["S"] , "-":["S"], "!":["S"],";":["#"],")":["#"]},
     
 }
 
