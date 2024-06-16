@@ -14,7 +14,7 @@ let nonTerminals = {
         "Follow": ["T_Id"]
     },
     "S":{
-        "First":["(", "T_Id" , "T_Deciaml" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-", "!" ],
+        "First":["(", "T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-", "!" ],
         "Follow":[";" , "]", ")" ,  "," ]
     },
     "A":{
@@ -30,7 +30,7 @@ let nonTerminals = {
         "Follow":["+" , "-" , "*" , "/" , "%","=" ]
     },
     "P'":{
-        "First": ["(", "T_Id" , "T_Deciaml" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-" ,"!" ],
+        "First": ["(", "T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-" ,"!" ],
         "Follow":[";" , "]", ")" ,  ","]
     },
     "P''":{
@@ -38,7 +38,7 @@ let nonTerminals = {
         "Follow":[";", "]", ")" ,  "," ]
     },
     "D":{
-        "First":["(", "T_Id" , "T_Deciaml" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-" ,"!"],
+        "First":["(", "T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-" ,"!"],
         "Follow":["||", ";" , "]" , ")" , "," ]
     },
     "D'":{
@@ -46,11 +46,11 @@ let nonTerminals = {
         "Follow":["||" ,  ";" , "]" , ")" , "," ]
     },
     "E":{
-        "First":["(", "T_Id" , "T_Deciaml" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-" ,"!"],
+        "First":["(", "T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-" ,"!"],
         "Follow": ["&&" , "||" , ";" , "]" , ")" , ","]
     },
     "G":{
-        "First":["(", "T_Id" , "T_Deciaml" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-" ,"!"],
+        "First":["(", "T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-" ,"!"],
         "Follow":["==" , "!=" , "&&" , "||" , ";" , "]" , ")" , "," ]
     },
     "E'":{
@@ -59,10 +59,10 @@ let nonTerminals = {
     },
     "F":{
         "First": ["==" , "!="],
-        "Follow":["(", "T_Id" , "T_Deciaml" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-" ,"!"]
+        "Follow":["(", "T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-" ,"!"]
     },
     "I":{
-        "First":["(", "T_Id" , "T_Deciaml" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-" ,"!"],
+        "First":["(", "T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-" ,"!"],
         "Follow":["<" ,"<=" , ">" , ">=" , "==" , "!=" , "&&" ,"||" , ";"  , "]" , ")" , "," ]
     },
     "G'":{
@@ -71,10 +71,10 @@ let nonTerminals = {
     },
     "H":{
         "First":["<" , "<=" , ">" , ">=" ],
-        "Follow":["(", "T_Id" , "T_Deciaml" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-" ,"!"]
+        "Follow":["(", "T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-" ,"!"]
     },
     "K":{
-        "First":["(", "T_Id" , "T_Deciaml" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-" ,"!"],
+        "First":["(", "T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-" ,"!"],
         "Follow":["+","-","<" ,"<=" , ">" , ">=" , "==" , "!=" , "&&" ,"||" , ";"  , "]" , ")" , "," ]
     },
     "I'":{
@@ -83,10 +83,10 @@ let nonTerminals = {
     },
     "J":{
         "First":["+" , "-"],
-        "Follow":["(", "T_Id" , "T_Deciaml" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-" ,"!"]
+        "Follow":["(", "T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-" ,"!"]
     },
     "M":{
-        "First":["(", "T_Id" , "T_Deciaml" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-" ,"!"],
+        "First":["(", "T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-" ,"!"],
         "Follow":["+","-","<" ,"<=" , ">" , ">=" , "==" , "!=" , "&&" ,"||" , ";"  , "]" , ")" , "," , "*", "/" , "%" ]
     },
     "M'":{
@@ -103,14 +103,14 @@ let nonTerminals = {
     },
     "L":{
         "First":["*" , "/" , "%" ],
-        "Follow":["(", "T_Id" , "T_Deciaml" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-" ,"!"]
+        "Follow":["(", "T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-" ,"!"]
     },
     "Q":{
-        "First":["T_Id" , "T_Deciaml" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "#"],
+        "First":["T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "#"],
         "Follow":[")"]
     },
     "R":{
-        "First":["T_Id" , "T_Deciaml" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False"],
+        "First":["T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False"],
         "Follow":["," , ")" ]
     },
     "T":{
@@ -158,7 +158,7 @@ let nonTerminals = {
         "Follow":["(", "!"  , "T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False", "+" , "-" , ";" , "T_If" , "T_For" , "T_Bool" , "T_Int" , "T_Char","T_Void"  , "T_Print" , "T_Else" , "T_Return" , "T_Break" , "T_Continue","}", "$"]
     },
     "h":{
-        "First":["#","T_Int" , "T_Char" , "T_Bool" , "T_Void" , "(","T_Id" , "T_Deciaml" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-", "!" ],
+        "First":["#","T_Int" , "T_Char" , "T_Bool" , "T_Void" , "(","T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-", "!" ],
         "Follow":[";"]
     },
     "h'":{
@@ -166,7 +166,7 @@ let nonTerminals = {
         "Follow":[";"]
     },
     "i":{
-        "First":["(", "T_Id" , "T_Deciaml" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-", "!","#"],
+        "First":["(", "T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-", "!","#"],
         "Follow":[";",")"]
     },
     "j":{
@@ -226,7 +226,7 @@ let nonTerminals = {
         "Follow":["}"]
     },
     "d'":{
-        "First":[";","(", "T_Id" , "T_Deciaml" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-", "!" ],
+        "First":[";","(", "T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-", "!" ],
         "Follow":["}"]
     },
     "Print":{

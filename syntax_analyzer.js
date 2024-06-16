@@ -27,8 +27,9 @@ let textareaWrapper=document.querySelector('.container')
     let splitedArray=[]
     tokens.forEach(token=>{
         splitedArray=token.split(/\s/g)
-        if(!['T_Comment','T_Whitespace'].includes(splitedArray[3]))
-            tokensForSyntaxAnalyzer.push({address:splitedArray[0].split(":")[0] ,token:splitedArray[1],token_name:splitedArray[3]})
+        if(!['T_Comment','T_Whitespace'].includes(splitedArray[splitedArray.length - 1])){
+            tokensForSyntaxAnalyzer.push({atokensForSyntaxAnalyzer:splitedArray[0].split(":")[0] ,token:splitedArray[1],token_name:splitedArray[3]})
+         }
     })
 
     parse(tokensForSyntaxAnalyzer)
@@ -61,6 +62,8 @@ let textareaWrapper=document.querySelector('.container')
     let flagForFunction=false
     let flag=false
     while(index != tokensForSyntaxAnalyzer.length){
+        console.log(tokensForSyntaxAnalyzer[index],stack[stack.length - 1])
+        
         if(stack[stack.length - 1].terminal != undefined){
             if(flagForFunction){
                 if(stack[stack.length - 1 ].terminal=="{" && tokensForSyntaxAnalyzer[index].token=="{")
@@ -99,25 +102,28 @@ let textareaWrapper=document.querySelector('.container')
                 for (loopIndex=rule.length-1; loopIndex>=0; loopIndex--){
                     if(rule[loopIndex]=="#"){
                         node = {terminal:"#"}
+                        topElement.children.splice(0,0,node)
                         break
                     }
                     if(rule[loopIndex].includes("T_"))
                         node ={terminal:rule[loopIndex]}
                     else if(rule[loopIndex][0].match(/[a-zA-Z]/g))
-                        node ={nonTerminal:rule[loopIndex]}
+                        node ={nonTerminal:rule[loopIndex],children:[]}
                     else
                         node ={terminal:rule[loopIndex]}
-                    topElement.splice(0,0,node)
+                    topElement.children.splice(0,0,node)
                     stack.push(node)
                 }
             }
             else{
                 Errors.push(new Error("Error"))
+                break
                 
             }
       }
        
     }
+    
 
  }
 
@@ -144,14 +150,14 @@ let textareaWrapper=document.querySelector('.container')
     }
     if(currentStackNode.nonTerminal=="S" && tokensForSyntaxAnalyzer[index].token_name=="T_Id"){
         
-            if(tokensForSyntaxAnalyzer[index + 1].token=="=" || (beforeEqual.includes(tokensForSyntaxAnalyzer[index + 1].token) && tokensForSyntaxAnalyzer[index + 2].token=="=")){
+            if((tokensForSyntaxAnalyzer[index + 1].token=="=") || (beforeEqual.includes(tokensForSyntaxAnalyzer[index + 1].token) && tokensForSyntaxAnalyzer[index + 2].token=="=")){
                 return paresrTable["S"]["T_Id"][0]
             }
             else
                 return paresrTable["S"]["T_Id"][1]
     }
     if(currentStackNode.nonTerminal=="S" && tokensForSyntaxAnalyzer[index].token=="("){
-            if(tokensForSyntaxAnalyzer[index + 3].token=="=" || (beforeEqual.includes(tokensForSyntaxAnalyzer[index + 3].token) && tokensForSyntaxAnalyzer[index + 4].token=="=")){
+            if((tokensForSyntaxAnalyzer[index + 3].token=="=") || (beforeEqual.includes(tokensForSyntaxAnalyzer[index + 3].token) && tokensForSyntaxAnalyzer[index + 4].token=="=")){
                return paresrTable["S"]["("][0]
             }
            else
