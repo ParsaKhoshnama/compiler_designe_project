@@ -129,9 +129,16 @@ let textareaWrapper=document.querySelector('.container')
     if(flagForFunction){
        if(returnNonTerminal.includes(currentStackNode.nonTerminal) && tokensForSyntaxAnalyzer[index].token_name=="T_Return"){
            if(["X'","X","z"].includes(currentStackNode.nonTerminal))
-                return ["T_Return"]
-           else
-               return ["T_Return",currentStackNode.nonTerminal]
+              if(tokensForSyntaxAnalyzer[index+1].token==";")
+                return ["T_Return",";"]
+              else
+                  return ["T_Return","S",";"]
+           else{
+               if(tokensForSyntaxAnalyzer[index+1].token==";")
+                  return ["T_Return",";",currentStackNode.nonTerminal]
+               else 
+                  return ["T_Return","S",";",currentStackNode.nonTerminal]
+           }
        }
 
     }
