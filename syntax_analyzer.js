@@ -158,6 +158,7 @@ let cnt=0
                     }
                     if(flagForErrorWhile){
                         stack.splice(stack.length - 1,1)
+                        ErrorFlag=false
                         break
                     }
                     index++
