@@ -97,8 +97,10 @@ let textareaWrapper=document.querySelector('.container')
                 topElement=stack[stack.length - 1]
                 stack.splice(stack.length - 1,1)//pop
                 for (loopIndex=rule.length-1; loopIndex>=0; loopIndex--){
-                    if(rule[loopIndex]=="#")
+                    if(rule[loopIndex]=="#"){
+                        node = {terminal:"#"}
                         break
+                    }
                     if(rule[loopIndex].includes("T_"))
                         node ={terminal:rule[loopIndex]}
                     else if(rule[loopIndex][0].match(/[a-zA-Z]/g))
@@ -110,6 +112,7 @@ let textareaWrapper=document.querySelector('.container')
                 }
             }
             else{
+                Errors.push(new Error("Error"))
                 
             }
       }
@@ -124,8 +127,12 @@ let textareaWrapper=document.querySelector('.container')
 
  function findRule(currentStackNode,tokensForSyntaxAnalyzer,index,flagForFunction){
     if(flagForFunction){
-       if(returnNonTerminal.includes(currentStackNode.nonTerminal) && tokensForSyntaxAnalyzer[index].token_name=="T_Return")
-            return ["T_Return" , "d'"]
+       if(returnNonTerminal.includes(currentStackNode.nonTerminal) && tokensForSyntaxAnalyzer[index].token_name=="T_Return"){
+           if(["X'","X","z"].includes(currentStackNode.nonTerminal))
+                return ["T_Return"]
+       }
+       else
+            return ["T_Return",currentStackNode.nonTerminal]
     }
     if(currentStackNode.nonTerminal=="S" && tokensForSyntaxAnalyzer[index].token_name=="T_Id"){
         
@@ -142,14 +149,8 @@ let textareaWrapper=document.querySelector('.container')
            else
               return paresrTable["S"]["("][1]       
     }
- /*   if(currentStackNode.nonTerminal=="A'" && tokensForSyntaxAnalyzer[index].token=="="){
-        if(tokensForSyntaxAnalyzer[index+1].token_name=="T_Id"){
-            if(tokensForSyntaxAnalyzer[index+2].token=="=" || (beforeEqual.includes(tokensForSyntaxAnalyzer[index+2].token) && tokensForSyntaxAnalyzer[index+3].token=="="))
-                return paresrTable["A'"]["="][0]
-        }
-        
-
-    }*/
+    if(currentStackNode.nonTerminal=="A'")
+        return APrimeFunction(currentStackNode.nonTerminal,tokensForSyntaxAnalyzer,index)
    if(currentStackNode.nonTerminal=="M'" && tokensForSyntaxAnalyzer[index].token=="+"){
 
         if(tokensForSyntaxAnalyzer[index+1].token=="+")
@@ -169,6 +170,47 @@ let textareaWrapper=document.querySelector('.container')
         return paresrTable[currentStackNode.nonTerminal][tokensForSyntaxAnalyzer[index].token_name]
     else
         return paresrTable[currentStackNode.nonTerminal][tokensForSyntaxAnalyzer[index].token]
+ }
+
+
+
+
+ function APrimeFunction(nonTerminal,tokensForSyntaxAnalyzer,index){
+    let flag=false
+    if(tokensForSyntaxAnalyzer[index].token == "="){
+        if(tokensForSyntaxAnalyzer[index + 1].token_name=="T_Id"){
+            if(tokensForSyntaxAnalyzer[index+2].token=="=")
+                flag=true
+            else if(beforeEqual.includes(tokensForSyntaxAnalyzer[index+2].token) && tokensForSyntaxAnalyzer[index+3].token=="=")
+                flag=true
+            
+        }
+        else if(tokensForSyntaxAnalyzer[index + 1].token=="("){
+            if(tokensForSyntaxAnalyzer[index + 4].token=="=")
+                flag=true
+            else if(beforeEqual.includes(tokensForSyntaxAnalyzer[index+4].token) && tokensForSyntaxAnalyzer[index+5].token=="=")
+                flag=true
+        }
+    }
+    else if(beforeEqual.includes(tokensForSyntaxAnalyzer[index].token)){
+        if(tokensForSyntaxAnalyzer[index + 2].token_name=="T_Id"){
+            if(tokensForSyntaxAnalyzer[index+3].token=="=")
+                flag=true
+            else if(beforeEqual.includes(tokensForSyntaxAnalyzer[index+3].token) && tokensForSyntaxAnalyzer[index+4].token=="=")
+                flag=true
+        }
+        else if(tokensForSyntaxAnalyzer[index + 2].token=="("){
+            if(tokensForSyntaxAnalyzer[index + 5].token=="=")
+                flag=true
+            else if(beforeEqual.includes(tokensForSyntaxAnalyzer[index+5].token) && tokensForSyntaxAnalyzer[index+6].token=="=")
+                flag=true
+        }
+    }
+
+    if(flag)
+        return paresrTable[nonTerminal][tokensForSyntaxAnalyzer[index].token][0]
+    else
+        return paresrTable[nonTerminal][tokensForSyntaxAnalyzer[index].token][1]
  }
 
 
