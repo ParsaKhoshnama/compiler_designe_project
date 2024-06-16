@@ -30,7 +30,7 @@ let paresrTable={
     "T":{",":[",","R","T"],")":["#"]},
     "Def":{"[":["Var"] , "=":["Var"] , ",":["Var"] , ";":["Var"] , "(":["Function"]},
     "Var":{"[":["U","W",";"] , "=":["U","W",";"] , ",":["U","W",";"] , ";":["U","W",";"]},
-    "U":{"[":["[","S","]"] , "=":["=","S"],",":["#"] , ";":["#"]},
+    "U":{"[":["[","Q'","]","=","S"] , "=":["=","S"],",":["#"] , ";":["#"]},
     "W":{",":[",","Var"],";":["#"]},
     "IF":{"T_If":["T_If","(","S",")","X","Y","Z"]},
     "X":{"{":["{","a","}"],"(":["Statement"] , "!":["Statement"] , "T_Id":["Statement"] , "T_Decimal":["Statement"] , "T_Hexadecimal":["Statement"] , "T_String":["Statement"] , "T_Character":["Statement"] , "T_True":["Statement"] , "T_False":["Statement"], "+":["Statement"] , "-":["Statement"], ";":["Statement"] , "T_If":["Statement"] , "T_For":["Statement"] , "T_Bool":["Statement"] , "T_Int":["Statement"] , "T_Char":["Statement"],"T_Void":["Statement"]  , "T_Print":["Statement"]},
@@ -57,7 +57,8 @@ let paresrTable={
     "d":{"T_Return":["T_Return","d'"],"(":["Statement","d"] , "!":["Statement","d"] , "T_Id":["Statement","d"] , "T_Decimal":["Statement","d"] , "T_Hexadecimal":["Statement","d"] , "T_String":["Statement","d"] , "T_Character":["Statement","d"] , "T_True":["Statement","d"] , "T_False":["Statement","d"], "+":["Statement","d"] , "-":["Statement","d"], ";":["Statement","d"] , "T_If":["Statement","d"] , "T_For":["Statement","d"] , "T_Bool":["Statement","d"] , "T_Int":["Statement","d"] , "T_Char":["Statement","d"],"T_Void":["Statement","d"]  , "T_Print":["Statement","d"],"}":["#"]},
     "d'":{";":[";","d"],"(":["S",";","d"], "T_Id":["S",";","d"] , "T_Decimal":["S",";","d"] , "T_Hexadecimal":["S",";","d"] , "T_String":["S",";","d"] , "T_Character":["S",";","d"] , "T_True":["S",";","d"] , "T_False":["S",";","d"] , "+":["S",";","d"] , "-":["S",";","d"], "!":["S",";","d"]},
     "Print":{"T_Print":["T_Print","(","S","g",")"]},
-    "g":{",":[",","S","g"],")":["#"]}
+    "g":{",":[",","S","g"],")":["#"]},
+    "Q'":{"(":["S"], "T_Id":["S"] , "T_Decimal":["S"] , "T_Hexadecimal":["S"] , "T_String":["S"] , "T_Character":["S"] , "T_True":["S"] , "T_False":["S"] , "+":["S"] , "-":["S"], "!":["S"],"]":["#"]}
 
 }
 

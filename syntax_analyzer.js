@@ -59,7 +59,7 @@ let textareaWrapper=document.querySelector('.container')
 
 
     let Errors=[]
-
+let cnt=0
     let loopIndex=0
     let topElement
     let rule
@@ -121,7 +121,7 @@ let textareaWrapper=document.querySelector('.container')
             }
             else{
                 Errors.push(new Error("Error"))
-                break
+               
                 
             }
       }
