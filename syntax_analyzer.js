@@ -130,9 +130,10 @@ let textareaWrapper=document.querySelector('.container')
        if(returnNonTerminal.includes(currentStackNode.nonTerminal) && tokensForSyntaxAnalyzer[index].token_name=="T_Return"){
            if(["X'","X","z"].includes(currentStackNode.nonTerminal))
                 return ["T_Return"]
+           else
+               return ["T_Return",currentStackNode.nonTerminal]
        }
-       else
-            return ["T_Return",currentStackNode.nonTerminal]
+
     }
     if(currentStackNode.nonTerminal=="S" && tokensForSyntaxAnalyzer[index].token_name=="T_Id"){
         
@@ -151,7 +152,8 @@ let textareaWrapper=document.querySelector('.container')
     }
     if(currentStackNode.nonTerminal=="A'")
         return APrimeFunction(currentStackNode.nonTerminal,tokensForSyntaxAnalyzer,index)
-   if(currentStackNode.nonTerminal=="M'" && tokensForSyntaxAnalyzer[index].token=="+"){
+  
+    if(currentStackNode.nonTerminal=="M'" && tokensForSyntaxAnalyzer[index].token=="+"){
 
         if(tokensForSyntaxAnalyzer[index+1].token=="+")
             return paresrTable["M'"]["+"][0]
