@@ -28,11 +28,16 @@ let textareaWrapper=document.querySelector('.container')
     tokens.forEach(token=>{
         splitedArray=token.split(/\s/g)
         if(!['T_Comment','T_Whitespace'].includes(splitedArray[splitedArray.length - 1])){
-            tokensForSyntaxAnalyzer.push({atokensForSyntaxAnalyzer:splitedArray[0].split(":")[0] ,token:splitedArray[1],token_name:splitedArray[3]})
+            if(splitedArray[splitedArray.length - 1]=="T_String")
+                tokensForSyntaxAnalyzer.push({address:splitedArray[0].split(":")[0] ,token:token.match(/\".*\"/g)[0],token_name:splitedArray[splitedArray.length-1]})
+              
+            else
+              tokensForSyntaxAnalyzer.push({address:splitedArray[0].split(":")[0] ,token:splitedArray[1],token_name:splitedArray[splitedArray.length-1]})
          }
     })
 
     parse(tokensForSyntaxAnalyzer)
+    
    
  })
  
@@ -57,13 +62,12 @@ let textareaWrapper=document.querySelector('.container')
 
     let loopIndex=0
     let topElement
-
     let rule
     let flagForFunction=false
     let flag=false
     while(index != tokensForSyntaxAnalyzer.length){
         console.log(tokensForSyntaxAnalyzer[index],stack[stack.length - 1])
-        
+
         if(stack[stack.length - 1].terminal != undefined){
             if(flagForFunction){
                 if(stack[stack.length - 1 ].terminal=="{" && tokensForSyntaxAnalyzer[index].token=="{")
