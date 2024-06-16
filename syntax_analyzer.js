@@ -144,6 +144,7 @@ let cnt=0
                             topElement.children.splice(0,0,node)
                             stack.push(node)
                         }
+                        ErrorFlag=false
                         break
                     }
                     if(tokensWithName.includes(tokensForSyntaxAnalyzer[index].token_name)){
