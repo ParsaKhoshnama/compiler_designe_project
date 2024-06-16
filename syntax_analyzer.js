@@ -101,10 +101,8 @@ let cnt=0
         }
 
       else{
-            if(stack[stack.length - 1].nonTerminal=="c" && tokensForSyntaxAnalyzer[index].token=="{"){
+            if(stack[stack.length - 1].nonTerminal=="c" && tokensForSyntaxAnalyzer[index].token=="{")
                 flagForFunction=true
-                LCCount++
-            }
             rule=findRule(stack[stack.length - 1] , tokensForSyntaxAnalyzer,index,flagForFunction,ErrorFlag)
             if(rule !=undefined){
                 topElement=stack[stack.length - 1]
