@@ -161,11 +161,8 @@ let cnt=0
                         ErrorFlag=false
                         break
                     }
-                    index++
-                          
-                }
-               
-                
+                    index++    
+                }  
             }
       }
        
