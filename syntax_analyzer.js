@@ -74,8 +74,11 @@ let cnt=0
                     LCCount++
                 else if(stack[stack.length - 1 ].terminal=="}" && tokensForSyntaxAnalyzer[index].token=="}")
                     RCCount++
-                if(LCCount==RCCount)
+                if(LCCount==RCCount){
                     flagForFunction=false
+                    LCCount=0
+                    RCCount=0
+                }
             }
             if(stack[stack.length - 1 ].terminal.includes("T_")){
                 if(stack[stack.length - 1].terminal == tokensForSyntaxAnalyzer[index].token_name)
