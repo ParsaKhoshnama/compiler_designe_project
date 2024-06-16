@@ -20,6 +20,7 @@ int main(){
 			print(j);
 			print(_assign1);
 			print(test_function(i,j,add));
+			a=c+t;
 		}
 	}
 	add = false;
@@ -38,3 +39,6 @@ int main(){
 	}
 	print("this is\" a whole string no other token like '=' or 'else' or even \\\\comment should be recogized");
 	char back = '\\';
+	char quote = '\'';
+	int _123 = 0XABCdef1230;
+}

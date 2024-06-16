@@ -43,7 +43,7 @@ let textareaWrapper=document.querySelector('.container')
 
  let RCCount=0
  let LCCount=0
-
+let currentStackNode
 
 
  function parse(tokensForSyntaxAnalyzer){
@@ -69,7 +69,7 @@ let cnt=0
     let flagForFunction=false
     let flag=false
     while(index != tokensForSyntaxAnalyzer.length){
-        console.log(tokensForSyntaxAnalyzer[index],stack[stack.length - 1])
+        console.log(tokensForSyntaxAnalyzer[index],stack[stack.length - 1],stack.length)
 
         if(stack[stack.length - 1].terminal != undefined){
             if(flagForFunction){
@@ -125,8 +125,10 @@ let cnt=0
             }
             else{
                 Errors.push(new Error("Error"))
+                
                 ErrorFlag=true
                 flagForErrorWhile=false
+               
                 while(index != tokensForSyntaxAnalyzer.length){
                     rule=findRule(stack[stack.length - 1] , tokensForSyntaxAnalyzer,index,flagForFunction,ErrorFlag)
                     if(rule !=undefined){
@@ -146,10 +148,10 @@ let cnt=0
                         break
                     }
                     if(tokensWithName.includes(tokensForSyntaxAnalyzer[index].token_name)){
-                        if(currentStackNode.nonTerminal.Follow.includes(tokensForSyntaxAnalyzer[index].token_name))
+                        if(nonTerminals[`${stack[stack.length - 1].nonTerminal}`].Follow.includes(tokensForSyntaxAnalyzer[index].token_name))
                             flagForErrorWhile=true    
                     }
-                    else if(currentStackNode.nonTerminal.Follow.includes(tokensForSyntaxAnalyzer[index].token))
+                    else if(nonTerminals[`${stack[stack.length - 1].nonTerminal}`].Follow.includes(tokensForSyntaxAnalyzer[index].token))
                             flagForErrorWhile=true
                     
                     if(keyWords.includes(tokensForSyntaxAnalyzer[index].token_name)){
@@ -225,16 +227,18 @@ let cnt=0
     }
 
     if(tokensWithName.includes(tokensForSyntaxAnalyzer[index].token_name)){
+        
         if(ErrorFlag){
-          if(currentStackNode.nonTerminal.First.includes(tokensForSyntaxAnalyzer[index].token_name))
+          if(nonTerminals[`${currentStackNode.nonTerminal}`].First.includes(tokensForSyntaxAnalyzer[index].token_name))
             return paresrTable[currentStackNode.nonTerminal][tokensForSyntaxAnalyzer[index].token_name]
         }
         else
             return paresrTable[currentStackNode.nonTerminal][tokensForSyntaxAnalyzer[index].token_name]
     }
     else{
+       
         if(ErrorFlag){
-           if(currentStackNode.nonTerminal.First.includes(tokensForSyntaxAnalyzer[index].token)) 
+           if(nonTerminals[`${currentStackNode.nonTerminal}`].First.includes(tokensForSyntaxAnalyzer[index].token)) 
              return paresrTable[currentStackNode.nonTerminal][tokensForSyntaxAnalyzer[index].token]
         }
         else
@@ -279,7 +283,7 @@ let cnt=0
 
     if(flag)
         return paresrTable[nonTerminal][tokensForSyntaxAnalyzer[index].token][0]
-    else if(!ErrorFlag)
+     else if(!ErrorFlag)
         return paresrTable[nonTerminal][tokensForSyntaxAnalyzer[index].token][1]
  }
 
