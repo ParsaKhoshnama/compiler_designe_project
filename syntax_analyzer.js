@@ -37,7 +37,6 @@ let textareaWrapper=document.querySelector('.container')
     })
 
     parse(tokensForSyntaxAnalyzer)
-    
    
  })
  
@@ -56,6 +55,10 @@ let textareaWrapper=document.querySelector('.container')
     let root={nonTerminal:"Statements",children:[]}
     stack.push(root)
     let node
+
+    let ErrorFlag=false
+    let flagForErrorWhile=false
+    
 
 
     let Errors=[]
@@ -102,7 +105,7 @@ let cnt=0
                 flagForFunction=true
                 LCCount++
             }
-            rule=findRule(stack[stack.length - 1] , tokensForSyntaxAnalyzer,index,flagForFunction)
+            rule=findRule(stack[stack.length - 1] , tokensForSyntaxAnalyzer,index,flagForFunction,ErrorFlag)
             if(rule !=undefined){
                 topElement=stack[stack.length - 1]
                 stack.splice(stack.length - 1,1)//pop
@@ -124,6 +127,42 @@ let cnt=0
             }
             else{
                 Errors.push(new Error("Error"))
+                ErrorFlag=true
+                flagForErrorWhile=false
+                while(index != tokensForSyntaxAnalyzer.length){
+                    rule=findRule(stack[stack.length - 1] , tokensForSyntaxAnalyzer,index,flagForFunction,ErrorFlag)
+                    if(rule !=undefined){
+                        topElement=stack[stack.length - 1]
+                        stack.splice(stack.length - 1,1)//pop
+                        for (loopIndex=rule.length-1; loopIndex>=0; loopIndex--){
+                            if(rule[loopIndex].includes("T_"))
+                                node ={terminal:rule[loopIndex]}
+                            else if(rule[loopIndex][0].match(/[a-zA-Z]/g))
+                                node ={nonTerminal:rule[loopIndex],children:[]}
+                            else
+                                node ={terminal:rule[loopIndex]}
+                            topElement.children.splice(0,0,node)
+                            stack.push(node)
+                        }
+                        break
+                    }
+                    if(tokensWithName.includes(tokensForSyntaxAnalyzer[index].token_name)){
+                        if(currentStackNode.nonTerminal.Follow.includes(tokensForSyntaxAnalyzer[index].token_name))
+                            flagForErrorWhile=true    
+                    }
+                    else if(currentStackNode.nonTerminal.Follow.includes(tokensForSyntaxAnalyzer[index].token))
+                            flagForErrorWhile=true
+                    
+                    if(keyWords.includes(tokensForSyntaxAnalyzer[index].token_name)){
+                        flagForErrorWhile=true
+                    }
+                    if(flagForErrorWhile){
+                        stack.splice(stack.length - 1,1)
+                        break
+                    }
+                    index++
+                          
+                }
                
                 
             }
@@ -138,7 +177,7 @@ let cnt=0
 
  let returnNonTerminal=["X'","a'","z","X","a"]
 
- function findRule(currentStackNode,tokensForSyntaxAnalyzer,index,flagForFunction){
+ function findRule(currentStackNode,tokensForSyntaxAnalyzer,index,flagForFunction,ErrorFlag){
     if(flagForFunction){
        if(returnNonTerminal.includes(currentStackNode.nonTerminal) && tokensForSyntaxAnalyzer[index].token_name=="T_Return"){
            if(["X'","X","z"].includes(currentStackNode.nonTerminal))
@@ -171,33 +210,45 @@ let cnt=0
               return paresrTable["S"]["("][1]       
     }
     if(currentStackNode.nonTerminal=="A'")
-        return APrimeFunction(currentStackNode.nonTerminal,tokensForSyntaxAnalyzer,index)
+        return APrimeFunction(currentStackNode.nonTerminal,tokensForSyntaxAnalyzer,index,ErrorFlag)
   
     if(currentStackNode.nonTerminal=="M'" && tokensForSyntaxAnalyzer[index].token=="+"){
 
         if(tokensForSyntaxAnalyzer[index+1].token=="+")
             return paresrTable["M'"]["+"][0]
-        else
-        return paresrTable["M'"]["+"][1]
+        else if(!ErrorFlag)
+            return paresrTable["M'"]["+"][1]
    }
    if(currentStackNode.nonTerminal=="M'" && tokensForSyntaxAnalyzer[index].token=="-"){
 
          if(tokensForSyntaxAnalyzer[index+1].token=="-")
             return paresrTable["M'"]["-"][0]
-        else
+        else if(!ErrorFlag)
             return paresrTable["M'"]["-"][1]
     }
 
-    if(tokensWithName.includes(tokensForSyntaxAnalyzer[index].token_name))
-        return paresrTable[currentStackNode.nonTerminal][tokensForSyntaxAnalyzer[index].token_name]
-    else
-        return paresrTable[currentStackNode.nonTerminal][tokensForSyntaxAnalyzer[index].token]
+    if(tokensWithName.includes(tokensForSyntaxAnalyzer[index].token_name)){
+        if(ErrorFlag){
+          if(currentStackNode.nonTerminal.First.includes(tokensForSyntaxAnalyzer[index].token_name))
+            return paresrTable[currentStackNode.nonTerminal][tokensForSyntaxAnalyzer[index].token_name]
+        }
+        else
+            return paresrTable[currentStackNode.nonTerminal][tokensForSyntaxAnalyzer[index].token_name]
+    }
+    else{
+        if(ErrorFlag){
+           if(currentStackNode.nonTerminal.First.includes(tokensForSyntaxAnalyzer[index].token)) 
+             return paresrTable[currentStackNode.nonTerminal][tokensForSyntaxAnalyzer[index].token]
+        }
+        else
+            return  paresrTable[currentStackNode.nonTerminal][tokensForSyntaxAnalyzer[index].token]
+    }
  }
 
 
 
 
- function APrimeFunction(nonTerminal,tokensForSyntaxAnalyzer,index){
+ function APrimeFunction(nonTerminal,tokensForSyntaxAnalyzer,index,ErrorFlag){
     let flag=false
     if(tokensForSyntaxAnalyzer[index].token == "="){
         if(tokensForSyntaxAnalyzer[index + 1].token_name=="T_Id"){
@@ -231,8 +282,7 @@ let cnt=0
 
     if(flag)
         return paresrTable[nonTerminal][tokensForSyntaxAnalyzer[index].token][0]
-    else
+    else if(!ErrorFlag)
         return paresrTable[nonTerminal][tokensForSyntaxAnalyzer[index].token][1]
  }
-
 
