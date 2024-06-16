@@ -38,6 +38,3 @@ int main(){
 	}
 	print("this is\" a whole string no other token like '=' or 'else' or even \\\\comment should be recogized");
 	char back = '\\';
-	char quote = '\'';
-	int _123 = 0XABCdef1230;
-}
