@@ -36,21 +36,21 @@ let textareaWrapper=document.querySelector('.container')
          }
     })
 
-    parse(tokensForSyntaxAnalyzer)
-   
+   parse(tokensForSyntaxAnalyzer)
+    console.log(Errors)
  })
  
-
+ let Errors=[]
  let RCCount=0
  let LCCount=0
 let currentStackNode
-
+let stack=[]
 
  function parse(tokensForSyntaxAnalyzer){
     
-    let stack=[]
-    stack.push("$")
-    tokens.push("$")
+    stack.splice(0,stack.length)
+    stack.push({terminal:"$"})
+    tokensForSyntaxAnalyzer.push({token:"$",token_name:"$"})
     let index=0
     let root={nonTerminal:"Statements",children:[]}
     stack.push(root)
@@ -61,7 +61,7 @@ let currentStackNode
     
 
 
-    let Errors=[]
+
 let cnt=0
     let loopIndex=0
     let topElement
@@ -69,7 +69,7 @@ let cnt=0
     let flagForFunction=false
     let flag=false
     while(index != tokensForSyntaxAnalyzer.length){
-        console.log(tokensForSyntaxAnalyzer[index],stack[stack.length - 1],stack.length)
+        console.log(tokensForSyntaxAnalyzer[index],stack[stack.length - 1], `lc: ${LCCount} Rc:${RCCount}      `,stack.length)
 
         if(stack[stack.length - 1].terminal != undefined){
             if(flagForFunction){
@@ -94,8 +94,22 @@ let cnt=0
                 stack[stack.length - 1].terminal= tokensForSyntaxAnalyzer[index]
 
             }
-            else
-                Errors.push(new Error(`expected ${stack[stack.length - 1].terminal} before ${tokensForSyntaxAnalyzer[index].token} -  address: ${tokensForSyntaxAnalyzer[index].address}`))
+            else{
+                let error=new Error(`expected ${stack[stack.length - 1].terminal} before ${tokensForSyntaxAnalyzer[index].token} -  address: ${tokensForSyntaxAnalyzer[index].address}`)
+                error.address=tokensForSyntaxAnalyzer[index].address
+                if(Errors.length!=0){
+                    if(Errors[Errors.length - 1].address !=error.address){
+                             Errors.push(error)
+                             console.log(error)
+                        }
+                    }else {
+                        Errors.push(error)
+                        console.log(error);
+                }
+                stack.splice(stack.length - 1,1)
+                continue
+                
+            }
             index++
             stack.splice(stack.length - 1,1)
         }
@@ -105,6 +119,7 @@ let cnt=0
                 flagForFunction=true
             rule=findRule(stack[stack.length - 1] , tokensForSyntaxAnalyzer,index,flagForFunction,ErrorFlag)
             if(rule !=undefined){
+            
                 topElement=stack[stack.length - 1]
                 stack.splice(stack.length - 1,1)//pop
                 for (loopIndex=rule.length-1; loopIndex>=0; loopIndex--){
@@ -124,42 +139,69 @@ let cnt=0
                 }
             }
             else{
-                Errors.push(new Error("Error"))
+                let error=new Error(`Error: not expected ${tokensForSyntaxAnalyzer[index].token_name} after ${tokensForSyntaxAnalyzer[index-1].token_name} address:${tokensForSyntaxAnalyzer[index].address}`)
                 
+                error.address=tokensForSyntaxAnalyzer[index].address
+                if(Errors.length!=0)
+                {
+                    if(Errors[Errors.length - 1].address !=error.address){
+                        Errors.push(error)
+                        console.log(error)
+                    }
+                }
+                else {
+                    Errors.push(error)
+                    console.log(error);
+                }
+            
                 ErrorFlag=true
                 flagForErrorWhile=false
-               
                 while(index != tokensForSyntaxAnalyzer.length){
+                    if(tokensForSyntaxAnalyzer[index].token=="{")
+                        LCCount++
+                    else if(tokensForSyntaxAnalyzer[index].token=="}")
+                        RCCount++
+                    if(flagForFunction)
+                        if(RCCount==LCCount)
+                            flagForFunction=false
+                    
                     rule=findRule(stack[stack.length - 1] , tokensForSyntaxAnalyzer,index,flagForFunction,ErrorFlag)
                     if(rule !=undefined){
                         topElement=stack[stack.length - 1]
                         stack.splice(stack.length - 1,1)//pop
+                        let newNode
                         for (loopIndex=rule.length-1; loopIndex>=0; loopIndex--){
                             if(rule[loopIndex].includes("T_"))
-                                node ={terminal:rule[loopIndex]}
+                                newNode ={terminal:rule[loopIndex]}
                             else if(rule[loopIndex][0].match(/[a-zA-Z]/g))
-                                node ={nonTerminal:rule[loopIndex],children:[]}
+                                newNode ={nonTerminal:rule[loopIndex],children:[]}
                             else
-                                node ={terminal:rule[loopIndex]}
-                            topElement.children.splice(0,0,node)
-                            stack.push(node)
+                                newNode ={terminal:rule[loopIndex]}
+                            topElement.children.splice(0,0,newNode)
+                            stack.push(newNode)
                         }
                         ErrorFlag=false
                         break
                     }
+                   
                     if(tokensWithName.includes(tokensForSyntaxAnalyzer[index].token_name)){
-                        if(nonTerminals[`${stack[stack.length - 1].nonTerminal}`].Follow.includes(tokensForSyntaxAnalyzer[index].token_name))
-                            flagForErrorWhile=true    
+                        if(nonTerminals[`${stack[stack.length - 1].nonTerminal}`].Follow.includes(tokensForSyntaxAnalyzer[index].token_name)){
+                            flagForErrorWhile=true  
+                     
+                        }
                     }
-                    else if(nonTerminals[`${stack[stack.length - 1].nonTerminal}`].Follow.includes(tokensForSyntaxAnalyzer[index].token))
+                    else if(nonTerminals[`${stack[stack.length - 1].nonTerminal}`].Follow.includes(tokensForSyntaxAnalyzer[index].token)){
                             flagForErrorWhile=true
+                   
+                    }
                     
-                    if(keyWords.includes(tokensForSyntaxAnalyzer[index].token_name)){
+                    if(keyWords.includes(tokensForSyntaxAnalyzer[index].token)){
                         flagForErrorWhile=true
                     }
                     if(flagForErrorWhile){
                         stack.splice(stack.length - 1,1)
                         ErrorFlag=false
+                       
                         break
                     }
                     index++    
@@ -176,8 +218,10 @@ let cnt=0
 
  let returnNonTerminal=["X'","a'","z","X","a"]
 
- function findRule(currentStackNode,tokensForSyntaxAnalyzer,index,flagForFunction,ErrorFlag){
+
+ function findRule(currentStackNode , tokensForSyntaxAnalyzer,index,flagForFunction,ErrorFlag){
     if(flagForFunction){
+       
        if(returnNonTerminal.includes(currentStackNode.nonTerminal) && tokensForSyntaxAnalyzer[index].token_name=="T_Return"){
            if(["X'","X","z"].includes(currentStackNode.nonTerminal))
               if(tokensForSyntaxAnalyzer[index+1].token==";")
@@ -191,8 +235,16 @@ let cnt=0
                   return ["T_Return","S",";",currentStackNode.nonTerminal]
            }
        }
+       
+       /*if(tokensForSyntaxAnalyzer[index-1].token==";" || tokensForSyntaxAnalyzer[index-1].token=="}" || tokensForSyntaxAnalyzer[index-1].token==")"){
+                   if(!["X'","a'","z","X","a"].includes(tokensForSyntaxAnalyzer) && tokensForSyntaxAnalyzer[index].token_name=="T_Return")
+                        return ["T_Return"]
+            }*/
+            
+       }
 
-    }
+    
+
     if(currentStackNode.nonTerminal=="S" && tokensForSyntaxAnalyzer[index].token_name=="T_Id"){
         
             if((tokensForSyntaxAnalyzer[index + 1].token=="=") || (beforeEqual.includes(tokensForSyntaxAnalyzer[index + 1].token) && tokensForSyntaxAnalyzer[index + 2].token=="=")){
@@ -212,11 +264,11 @@ let cnt=0
         return APrimeFunction(currentStackNode.nonTerminal,tokensForSyntaxAnalyzer,index,ErrorFlag)
   
     if(currentStackNode.nonTerminal=="M'" && tokensForSyntaxAnalyzer[index].token=="+"){
-
+        
         if(tokensForSyntaxAnalyzer[index+1].token=="+")
             return paresrTable["M'"]["+"][0]
         else if(!ErrorFlag)
-            return paresrTable["M'"]["+"][1]
+            return paresrTable["M'"]["+"][1]  
    }
    if(currentStackNode.nonTerminal=="M'" && tokensForSyntaxAnalyzer[index].token=="-"){
 
@@ -238,8 +290,10 @@ let cnt=0
     else{
        
         if(ErrorFlag){
-           if(nonTerminals[`${currentStackNode.nonTerminal}`].First.includes(tokensForSyntaxAnalyzer[index].token)) 
-             return paresrTable[currentStackNode.nonTerminal][tokensForSyntaxAnalyzer[index].token]
+           if(nonTerminals[`${currentStackNode.nonTerminal}`].First.includes(tokensForSyntaxAnalyzer[index].token)) {
+             if(currentStackNode.nonTerminal!="M'")
+                 return paresrTable[currentStackNode.nonTerminal][tokensForSyntaxAnalyzer[index].token]
+           }
         }
         else
             return  paresrTable[currentStackNode.nonTerminal][tokensForSyntaxAnalyzer[index].token]
