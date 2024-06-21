@@ -1,28 +1,19 @@
 import {lexical_analyzer_function} from './lexical_analyzer.js'
 import { nonTerminals } from './nonTerminals.js'
 import { paresrTable } from './parserTable.js'
-window.addEventListener('load',(event)=>{
-    textarea.value=''
-    textareaWrapper.innerHTML=''
-})
+
 
 let keyWords=['bool','break','char','continue','else','false','for','if','int','print','return','true','void']
 let tokensWithName=["T_Id","T_Decimal","T_Hexadecimal","T_String" , "T_Character" , "T_True" , "T_False",
     "T_If" , "T_For" , "T_Bool" , "T_Int" , "T_Char","T_Void"  , 
     "T_Print" , "T_Else" , "T_Return" , "T_Break" , "T_Continue"]
 
-let tokens
 
-let textarea=document.querySelector('textarea')
-let textareaWrapper=document.querySelector('.container')
 
- textarea.addEventListener('keyup',event=>textareaWrapper.innerHTML=event.target.value)
 
- document.querySelector('.btn').addEventListener('click',event=>{
+function syntax_analyzer_function(tokens){
 
-    tokens=lexical_analyzer_function(textarea.value)
-
-   // tokens.forEach(token => console.log(token))
+   
     let tokensForSyntaxAnalyzer=[]
     let splitedArray=[]
     tokens.forEach(token=>{
@@ -37,22 +28,26 @@ let textareaWrapper=document.querySelector('.container')
     })
 
    parse(tokensForSyntaxAnalyzer)
-    console.log(Errors)
- })
+   
+   console.clear()
+
+   return [root,Errors]
+   
+
+ }
  
  let Errors=[]
  let RCCount=0
  let LCCount=0
-let currentStackNode
 let stack=[]
-
+let root
  function parse(tokensForSyntaxAnalyzer){
     
     stack.splice(0,stack.length)
     stack.push({terminal:"$"})
     tokensForSyntaxAnalyzer.push({token:"$",token_name:"$"})
     let index=0
-    let root={nonTerminal:"Statements",children:[]}
+    root={nonTerminal:"Statements",children:[]}
     stack.push(root)
     let node
 
@@ -70,8 +65,9 @@ let cnt=0
     let flag=false
     while(index != tokensForSyntaxAnalyzer.length){
         console.log(tokensForSyntaxAnalyzer[index],stack[stack.length - 1], `lc: ${LCCount} Rc:${RCCount}      `,stack.length)
-
-        if(stack[stack.length - 1].terminal != undefined){
+        if(stack[stack.length - 1]==undefined)
+            break
+        if(stack[stack.length - 1]?.terminal != undefined){
             if(flagForFunction){
                 if(stack[stack.length - 1 ].terminal=="{" && tokensForSyntaxAnalyzer[index].token=="{")
                     LCCount++
@@ -113,6 +109,7 @@ let cnt=0
             index++
             stack.splice(stack.length - 1,1)
         }
+
 
       else{
             if(stack[stack.length - 1].nonTerminal=="c" && tokensForSyntaxAnalyzer[index].token=="{")
@@ -156,6 +153,7 @@ let cnt=0
             
                 ErrorFlag=true
                 flagForErrorWhile=false
+               // index++
                 while(index != tokensForSyntaxAnalyzer.length){
                     if(tokensForSyntaxAnalyzer[index].token=="{")
                         LCCount++
@@ -341,3 +339,13 @@ let cnt=0
         return paresrTable[nonTerminal][tokensForSyntaxAnalyzer[index].token][1]
  }
 
+
+
+
+
+
+
+
+
+
+export {syntax_analyzer_function}
