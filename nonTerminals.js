@@ -110,7 +110,7 @@ let nonTerminals = {
         "Follow":[")"]
     },
     "R":{
-        "First":["T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False"],
+        "First":["(", "T_Id" , "T_Decimal" , "T_Hexadecimal" , "T_String" , "T_Character" , "T_True" , "T_False" , "+" , "-", "!" ],
         "Follow":["," , ")" ]
     },
     "T":{
