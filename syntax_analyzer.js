@@ -131,6 +131,7 @@ let cnt=0
                         node ={nonTerminal:rule[loopIndex],children:[]}
                     else
                         node ={terminal:rule[loopIndex]}
+
                     topElement.children.splice(0,0,node)
                     stack.push(node)
                 }
@@ -175,6 +176,7 @@ let cnt=0
                                 newNode ={nonTerminal:rule[loopIndex],children:[]}
                             else
                                 newNode ={terminal:rule[loopIndex]}
+
                             topElement.children.splice(0,0,newNode)
                             stack.push(newNode)
                         }
