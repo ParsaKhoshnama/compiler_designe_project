@@ -65,6 +65,19 @@ function DFS(node){
                     node.childern[i].inh=node.inh
             }
         }
+        else if(["D","E","G","I","K","M"].includes(node.nonTerminal)){
+            node.synth=node.childern[0].synth
+            if(["P'","D","E","G","I","K"].includes(node.parent.nonTerminal)){
+                node.parent.childern[1].inh=node.synth
+            }
+            else{
+                node.parent.childern[2].inh=[node.synth]
+            }
+        }
+        else if(["P''","D'","E'","G'","I'","K'"].includes(node.nonTerminal)){
+            node.inh.push(node.parent.childern[1].synth)
+            node.parent.synth=node.synth
+        }
         
   }
 
@@ -97,7 +110,7 @@ function DFS(node){
         else if(node.terminal.token_name=="T_Id" && node.parent.childern[0]=="Type" ){
 
             if(!["h","b"].includes(node.parent.nonTerminal)){
-              if(checkBound(node)){
+              if(checkBoundForDefine(node)){
                 let symbolObject={"type":[node.inh,'variable'],"address":node.terminal.address , "braceNumber":currntBrace}
                 if(node.parent.childern[2].childern[0].nonTerminal=="Function")
                     symbolObject["type"].splice(1,1,"Function")
@@ -112,18 +125,44 @@ function DFS(node){
                 node.parent
             }
         }
-        else if(["T_Id","T_Character","T_String","T_Hexadecimal","T_Decimal","T_True","T_False"].includes(node.terminal.token_name))
-            node.parent.synth=node.terminal
+        else if(["T_Id","T_Character","T_String","T_Hexadecimal","T_Decimal","T_True","T_False"].includes(node.terminal.token_name)){
+            if(node.terminal.token_name=="T_Id"){
+                if(checkBoundID(node))
+                    node.parent.synth=node.terminal  
+            }
+           else
+                node.parent.synth=node.terminal
+        }
 
     }
 }
 
 
-function checkBound(node){
+function checkBoundForDefine(node){
 
     for(let symbol in symbolTable){
-        if(symbolTable[symbol].braceNumber==currntBrace && symbol==node.terminal.token)
+        if(symbolTable[symbol].braceNumber==currntBrace && symbol==node.terminal.token){
+            semmanticErrors.push(new Error(`${node.terminal.token} has not been defined already in scope ${currntBrace}`))
             return false
+        }
     }
     return true
+}
+
+function checkBoundID(node){
+    let flag=false
+    if(symbolTable[`${node.token_name}`]!=undefined){
+        if(symbolTable[`${node.token_name}`].address < node.terminal.address){
+            if(currntBrace==symbolTable[`${node.token_name}`].braceNumber)
+               return true
+            braces.forEach(brace=>{
+                brace.children.forEach(child=>{
+                    if(currntBrace==child)
+                        return true
+                })
+            })
+        }
+    }
+    semmanticErrors.push(new Error(`${node.terminal.token} has not been defined already`))
+    return false
 }
