@@ -54,7 +54,9 @@ function DFS(node){
         if(node.nonTerminal=="Type"){
             node.synth=node.childern[0].synth
             node.parent.childern[1].inh=node.synth
-            node.parent.childern[2].inh=node.parent.childern[1]
+            if(node.parent.childern[2].nonTerminal!="e")
+                node.parent.childern[2].inh=node.parent.childern[1]
+            
         }
         else if(["Var","Function","U","W"].includes(node.nonTerminal)){
             node.inh=node.parent.inh
@@ -67,8 +69,13 @@ function DFS(node){
   }
 
     else{
+        if(node.terminal=="#"){
+            node.inh=node.parent.inh
+            node.synth=node.inh
+            node.parent.synth=node.synth
+        }
 
-        if(node.terminal.token=="{"){
+        else if(node.terminal.token=="{"){
             openBraces.add(++currntBrace)
             let brace={number:currntBrace,children:[]}
             openBraces.forEach(braceNumber=>{
@@ -87,9 +94,9 @@ function DFS(node){
             node.synth=node.terminal.token
             
         }
-        else if(node.terminal.token_name=="T_Id"){
+        else if(node.terminal.token_name=="T_Id" && node.parent.childern[0]=="Type" ){
 
-            if(node.parent.childern[0]=="Type"){
+            if(!["h","b"].includes(node.parent.nonTerminal)){
               if(checkBound(node)){
                 let symbolObject={"type":[node.inh,'variable'],"address":node.terminal.address , "braceNumber":currntBrace}
                 if(node.parent.childern[2].childern[0].nonTerminal=="Function")
@@ -101,7 +108,12 @@ function DFS(node){
                     semmanticErrors.push(new Error(`${node.terminal.token} is defined already in scope ${currntBrace}`))
                 }
             }
+            else if(node.parent.childern[0]!="Type"){
+                node.parent
+            }
         }
+        else if(["T_Id","T_Character","T_String","T_Hexadecimal","T_Decimal","T_True","T_False"].includes(node.terminal.token_name))
+            node.parent.synth=node.terminal
 
     }
 }
